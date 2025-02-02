@@ -56,10 +56,10 @@ if ( !class_exists( 'WP_MCM_Admin' ) ) {
         public function admin_init() {
             // global $wp_mcmenders;
             $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
-            $this->debugMP( 'pr', __FUNCTION__ . ' started with _GET:', $_GET );
-            $this->debugMP( 'pr', __FUNCTION__ . ' started with _POST:', $_POST );
-            $this->debugMP( 'pr', __FUNCTION__ . ' started with _REQUEST:', $_REQUEST );
-            $this->debugMP( 'pr', __FUNCTION__ . ' started with _FILES:', $_FILES );
+            // $this->debugMP('pr', __FUNCTION__.' started with _GET:',     $_GET );
+            // $this->debugMP('pr', __FUNCTION__.' started with _POST:',    $_POST );
+            // $this->debugMP('pr', __FUNCTION__.' started with _REQUEST:', $_REQUEST );
+            // $this->debugMP('pr', __FUNCTION__.' started with _FILES:',   $_FILES );
         }
 
         /**

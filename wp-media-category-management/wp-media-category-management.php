@@ -6,13 +6,13 @@ Plugin Name: WP Media Category Management
 Description: A plugin to provide bulk category management functionality for media in WordPress sites.
 Author:      DeBAAT
 Author URI:  https://www.de-baat.nl/WP_MCM/
-Version:     2.3.3
+Version:     2.3.4
 Text Domain: wp-media-category-management
 Domain Path: /languages/
 License:     GPL v3
 
 
-Copyright (C) 2014 - 2024 DeBAAT wp-mcm@de-baat.nl
+Copyright (C) 2014 - 2025 DeBAAT wp-mcm@de-baat.nl
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -201,6 +201,15 @@ if ( function_exists( 'wp_mcm_freemius' ) ) {
     if ( defined( 'DOING_AJAX' ) && DOING_AJAX && !empty( $_POST['action'] ) && $_POST['action'] === 'heartbeat' ) {
         return;
     }
+    if ( defined( 'DOING_AJAX' ) ) {
+        WP_MCM_debugMP( 'msg', __FUNCTION__ . 'wp-media-category-management checking WP_AJAX for WP_MCM_VERSION_NUM = ' . WP_MCM_VERSION_NUM . ', found DOING_AJAX = ' . DOING_AJAX . '!' );
+    } else {
+        WP_MCM_debugMP( 'msg', __FUNCTION__ . 'wp-media-category-management checking WP_AJAX for WP_MCM_VERSION_NUM = ' . WP_MCM_VERSION_NUM . ', DID NOT FIND DOING_AJAX!' );
+    }
+    WP_MCM_debugMP( 'pr', __FUNCTION__ . ' wp-media-category-management started with _GET:', $_GET );
+    WP_MCM_debugMP( 'pr', __FUNCTION__ . ' wp-media-category-management started with _POST:', $_POST );
+    WP_MCM_debugMP( 'pr', __FUNCTION__ . ' wp-media-category-management started with _REQUEST:', $_REQUEST );
+    WP_MCM_debugMP( 'pr', __FUNCTION__ . ' wp-media-category-management started with _FILES:', $_FILES );
     function WP_MCM_Plugin_loader() {
         // Make sure WP_MCM_Plugin itself is active.
         WP_MCM_create_object( 'WP_MCM_Plugin', 'include/' );

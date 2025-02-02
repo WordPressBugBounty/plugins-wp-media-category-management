@@ -77,6 +77,8 @@ if ( !class_exists( 'WP_MCM_Media_Admin' ) ) {
 			} else {
 				$show_count = true;
 			}
+			$show_count = true;
+
 			$dropdown_options = array(
 				'taxonomy'        => $media_taxonomy,
 				'hide_empty'      => false,
@@ -356,8 +358,8 @@ if ( !class_exists( 'WP_MCM_Media_Admin' ) ) {
 			// merge our mcm_query_args into the WordPress query_args
 			$mcm_query_args = array_merge( $mcm_query_args, $taxquery );
 
-			$mcm_query_args['tax_query'] = array( 'relation' => 'AND' );
-
+			// Check all taxonomies to filter
+			$mcm_query_args['tax_query'] = array();
 			foreach ( $taxonomies as $taxonomy ) {
 				if ( isset( $mcm_query_args[$taxonomy] ) ) {
 					// Filter a specific category
@@ -382,7 +384,18 @@ if ( !class_exists( 'WP_MCM_Media_Admin' ) ) {
 				unset ( $mcm_query_args[$taxonomy] );
 			}
 
-			$this->debugMP('pr', __FUNCTION__ . ' Continued with mcm_query_args: ', $mcm_query_args );
+			// If multiple taxonomies to filter found, then add the AND function
+			if ( count( $mcm_query_args['tax_query'] ) > 1 ) {
+				$mcm_query_args['tax_query'] = array_push( $mcm_query_args['tax_query'], array( 'relation' => 'AND' ) );
+			}
+
+			// Remove $mcm_query_args['tax_query'] when not used
+			if ( count( $mcm_query_args['tax_query'] ) == 0 ) {
+				unset ( $mcm_query_args['tax_query'] );
+				$this->debugMP('pr', __FUNCTION__ . ' Continued with unset (tax_query) as it is not part of mcm_query_args: ', $mcm_query_args );
+			} else {
+				$this->debugMP('pr', __FUNCTION__ . ' Continued with (' . count( $mcm_query_args['tax_query'] ) . ') tax_query as part of mcm_query_args: ', $mcm_query_args );
+			}
 
 			return $mcm_query_args;
 		}
