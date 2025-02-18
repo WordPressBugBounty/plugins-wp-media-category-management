@@ -86,7 +86,7 @@ if ( !class_exists( 'WP_MCM_Notices' ) ) {
 					)
 				);
 
-				if ( wp_mcm_is_multi_array( $this->notices ) ) {
+				if ( $this->is_multi_array( $this->notices ) ) {
 					foreach ( $this->notices as $k => $notice ) {
 						$notice_output_escaped .= $this->create_notice_content_escaped( $notice, $allowed_html );
 					}
@@ -150,7 +150,7 @@ if ( !class_exists( 'WP_MCM_Notices' ) ) {
 			}
 
 			if ( $current_notices ) {
-				if ( !wp_mcm_is_multi_array( $current_notices ) ) {
+				if ( ! $this->is_multi_array( $current_notices ) ) {
 					$current_notices = array( $current_notices );
 				}
 
@@ -160,6 +160,22 @@ if ( !class_exists( 'WP_MCM_Notices' ) ) {
 			} else {
 				update_option( WP_MCM_NOTICE_OPTION, $new_notice );
 			}
+		}
+
+		/**
+		 * Check whether the array is multidimensional.
+		 *
+		 * @since 2.4.0
+		 * @param  array    $array The array to check
+		 * @return boolean
+		 */
+		function is_multi_array( $array ) {
+
+			foreach ( $array as $value ) {
+				if ( is_array( $value ) ) return true;
+			}
+
+			return false;
 		}
 
 		/**

@@ -79,8 +79,15 @@ if ( !class_exists( 'WP_MCM_Settings' ) ) {
          * @return html contents
          */
         public function wp_mcm_handle_action_settings() {
+            global $wp_mcm_notices;
             $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
             if ( isset( $_REQUEST[WP_MCM_ACTION_REQUEST] ) && WP_MCM_ACTION_SETTINGS === sanitize_key( $_REQUEST[WP_MCM_ACTION_REQUEST] ) ) {
+                // Check WP_MCM_ACTION_NONCE to verify the WP_MCM_ACTION_REQUEST is valid
+                if ( !wp_verify_nonce( $_REQUEST[WP_MCM_ACTION_NONCE], WP_MCM_ACTION_NONCE ) ) {
+                    $this->debugMP( 'msg', __FUNCTION__ . ' Not allowed to update WP MCM Settings!' );
+                    $wp_mcm_notices->save( WP_MCM_NOTICE_ERROR, __( 'Sorry, you are not allowed to update WP MCM Settings!', 'wp-media-category-management' ) );
+                    return;
+                }
                 // Process the WP_MCM_ACTION_SETTINGS
                 $this->process_mcm_settings();
             }
@@ -125,10 +132,12 @@ if ( !class_exists( 'WP_MCM_Settings' ) ) {
             $input_hidden_template = '<input type="hidden" name="%s" value="%s"/>';
             // Input hidden items
             //
+            $action_nonce = wp_create_nonce( WP_MCM_ACTION_NONCE );
             $input_hidden_items = array(
                 'option_page'         => WP_MCM_ADMIN_MENU_SLUG,
                 WP_MCM_SECTION_PARAM  => WP_MCM_SECTION_SETTINGS,
                 WP_MCM_ACTION_REQUEST => WP_MCM_ACTION_SETTINGS,
+                WP_MCM_ACTION_NONCE   => $action_nonce,
             );
             // Render top section header
             //

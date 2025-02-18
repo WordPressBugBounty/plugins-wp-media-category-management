@@ -6,7 +6,7 @@ Plugin Name: WP Media Category Management
 Description: A plugin to provide bulk category management functionality for media in WordPress sites.
 Author:      DeBAAT
 Author URI:  https://www.de-baat.nl/WP_MCM/
-Version:     2.3.4
+Version:     2.4.0
 Text Domain: wp-media-category-management
 Domain Path: /languages/
 License:     GPL v3

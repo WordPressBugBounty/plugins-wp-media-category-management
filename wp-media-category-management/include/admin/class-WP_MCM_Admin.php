@@ -12,11 +12,11 @@ if ( !defined( 'ABSPATH' ) ) {
 if ( !class_exists( 'WP_MCM_Admin' ) ) {
     class WP_MCM_Admin {
         /**
-         * A cache for the taxonomy objects.
+         * A cache for the notices objects.
          *
          * @var 
          */
-        public $taxonomyCache = array();
+        public $notices = array();
 
         /**
          * Class constructor
@@ -158,33 +158,6 @@ if ( !class_exists( 'WP_MCM_Admin' ) ) {
         }
 
         /**
-         * Dismiss notice.
-         *
-         * @return void
-         */
-        public function mcm_action_dismiss_notice() {
-            if ( !current_user_can( 'install_plugins' ) ) {
-                return;
-            }
-            $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
-            global $wp_mcm_options;
-            if ( wp_verify_nonce( esc_attr( $_REQUEST['nonce'] ), 'mcm_dismiss_notice' ) ) {
-                $notice_action = ( empty( $_REQUEST['notice_action'] ) || $_REQUEST['notice_action'] === 'hide' ? 'hide' : esc_attr( $_REQUEST['notice_action'] ) );
-                switch ( $notice_action ) {
-                    // delay notice
-                    case 'delay':
-                        // set delay period to WP_MCM_NOTICE_DELAY_PERIOD from now
-                        $wp_mcm_options->set_value( 'wp_mcm_notice_activation_date', time() + WP_MCM_NOTICE_DELAY_PERIOD );
-                        break;
-                    // hide notice
-                    default:
-                        $wp_mcm_options->set_value( 'wp_mcm_notice_status', '0' );
-                }
-            }
-            exit;
-        }
-
-        /**
          * Add admin notices.
          *
          * @param string $html Notice HTML
@@ -200,7 +173,7 @@ if ( !class_exists( 'WP_MCM_Admin' ) ) {
             $network = false
         ) {
             $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
-            $this->notices[] = array(
+            $this->notices = array(
                 'html'      => $html,
                 'status'    => $status,
                 'paragraph' => $paragraph,
@@ -222,7 +195,7 @@ if ( !class_exists( 'WP_MCM_Admin' ) ) {
                 echo '
 				<div class="' . esc_attr( $notice['status'] ) . '">
 					' . (( $notice['paragraph'] ? '<p>' : '' )) . '
-					' . esc_attr( $notice['html'] ) . '
+					' . $notice['html'] . '
 					' . (( $notice['paragraph'] ? '</p>' : '' )) . '
 				</div>';
             }
@@ -327,8 +300,21 @@ if ( !class_exists( 'WP_MCM_Admin' ) ) {
          * @return html contents
          */
         public function wp_mcm_handle_actions() {
+            global $wp_mcm_notices;
             $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
+            // Check whether there is a WP_MCM_ACTION_REQUEST to handle
             if ( isset( $_REQUEST[WP_MCM_ACTION_REQUEST] ) ) {
+                // Check WP_MCM_ACTION_NONCE to verify the WP_MCM_ACTION_REQUEST is valid
+                if ( !isset( $_REQUEST[WP_MCM_ACTION_NONCE] ) ) {
+                    $this->debugMP( 'msg', __FUNCTION__ . ' WP_MCM_ACTION_NONCE not set so not allowed to handle this requested action!' );
+                    $wp_mcm_notices->save( WP_MCM_NOTICE_ERROR, __( 'Sorry, you are not allowed to handle the requested action!', 'wp-media-category-management' ) );
+                    return;
+                }
+                if ( !wp_verify_nonce( $_REQUEST[WP_MCM_ACTION_NONCE], WP_MCM_ACTION_NONCE ) ) {
+                    $this->debugMP( 'msg', __FUNCTION__ . ' Not allowed to handle this requested action!' );
+                    $wp_mcm_notices->save( WP_MCM_NOTICE_ERROR, __( 'Sorry, you are not allowed to handle the requested action!', 'wp-media-category-management' ) );
+                    return;
+                }
                 // Check the cur_action
                 $cur_action = $this->get_wp_mcm_action();
                 switch ( $cur_action ) {

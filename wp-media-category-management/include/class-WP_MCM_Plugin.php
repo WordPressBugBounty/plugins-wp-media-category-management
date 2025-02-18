@@ -22,6 +22,7 @@ wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_REQUEST', 'wp_mcm_action_request' )
 wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_SETTINGS', 'wp_mcm_action_settings' );
 wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_ROW_TOGGLE', 'wp_mcm_action_row_toggle' );
 wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_BULK_TOGGLE', 'wp_mcm_action_bulk_toggle' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_NONCE', 'wp_mcm_action_nonce' );
 wp_mcm_maybe_define_constant( 'WP_MCM_LINK_DESTINATION_NONE', 'none' );
 wp_mcm_maybe_define_constant( 'WP_MCM_LINK_DESTINATION_FILE', 'file' );
 wp_mcm_maybe_define_constant( 'WP_MCM_LINK_DESTINATION_CUSTOM', 'custom' );
@@ -182,7 +183,7 @@ if ( !class_exists( 'WP_MCM_Plugin' ) ) {
                     // hide notice
                     default:
                         $wp_mcm_options->set_value( 'wp_mcm_notice_status', '0' );
-                        //$wp_mcm_options->set_value( 'wp_mcm_notice_activation_date', time() );
+                        $wp_mcm_options->set_value( 'wp_mcm_notice_activation_date', time() );
                         break;
                 }
                 // Update the changed options.
