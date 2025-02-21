@@ -173,7 +173,7 @@ if ( !class_exists( 'WP_MCM_Admin' ) ) {
             $network = false
         ) {
             $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
-            $this->notices = array(
+            $this->notices[] = array(
                 'html'      => $html,
                 'status'    => $status,
                 'paragraph' => $paragraph,

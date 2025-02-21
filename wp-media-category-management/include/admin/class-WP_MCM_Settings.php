@@ -111,6 +111,10 @@ if ( !class_exists( 'WP_MCM_Settings' ) ) {
                 $new_option_value = ( isset( $settings_post_values[$settings_name] ) ? $settings_post_values[$settings_name] : '' );
                 $wp_mcm_options->set_value( $settings_name, $new_option_value );
             }
+            // Check the help_notice_status whether to reset display a notice
+            // if ( $wp_mcm_options->is_true('wp_mcm_notice_status') ) {
+            // $wp_mcm_options->set_value( 'wp_mcm_notice_activation_date', time() );
+            // }
             // Update the changed options.
             $wp_mcm_options->update_mcm_options();
             $this->set_mcm_settings_params();
