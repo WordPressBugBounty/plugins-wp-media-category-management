@@ -731,9 +731,10 @@ if ( !class_exists( 'WP_MCM_Taxonomy' ) ) {
             // Create a list of taxonomyTermIDs to be used for the query
             $taxonomyTermIDs = array();
             foreach ( $taxonomyTerms as $term ) {
-                $taxonomyTermIDs[] = $term->term_taxonomy_id;
+                $taxonomyTermIDs[] = (int) $term->term_taxonomy_id;
             }
-            $taxonomyTermIDs = implode( ',', $taxonomyTermIDs );
+            // Ensure all IDs are integers before creating the list
+            $taxonomyTermIDs = implode( ',', array_map( 'absint', $taxonomyTermIDs ) );
             $query = "SELECT COUNT(*) AS total FROM {$wpdb->posts} ";
             $query .= " INNER JOIN {$wpdb->term_relationships} ON ({$wpdb->posts}.ID = {$wpdb->term_relationships}.object_id) ";
             $query .= " WHERE 1=1 ";

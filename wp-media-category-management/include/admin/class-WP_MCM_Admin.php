@@ -288,7 +288,7 @@ if ( !class_exists( 'WP_MCM_Admin' ) ) {
                 return sanitize_key( $_REQUEST['action'] );
             }
             if ( isset( $_REQUEST['action2'] ) ) {
-                return sanitize_key( $_REQUEST['action'] );
+                return sanitize_key( $_REQUEST['action2'] );
             }
             return false;
         }

@@ -254,9 +254,14 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
          * @return void
          */
         function mcm_attachment_fields_to_save( $post, $attachment ) {
-            $tags = esc_attr( $_POST['attachments'][$post['ID']]['tags'] );
-            $tag_arr = explode( ',', $tags );
-            wp_set_object_terms( $post['ID'], $tag_arr, 'post_tag' );
+            $tags_raw = ( isset( $_POST['attachments'][$post['ID']]['tags'] ) ? wp_unslash( $_POST['attachments'][$post['ID']]['tags'] ) : '' );
+            $tags = esc_attr( $tags_raw );
+            $tag_arr = array_filter( array_map( 'trim', explode( ',', $tags ) ) );
+            $tag_arr_sanitized = array();
+            foreach ( $tag_arr as $t ) {
+                $tag_arr_sanitized[] = sanitize_text_field( $t );
+            }
+            wp_set_object_terms( $post['ID'], $tag_arr_sanitized, 'post_tag' );
             return $post;
         }
 

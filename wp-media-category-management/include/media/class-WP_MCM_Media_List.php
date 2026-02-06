@@ -118,8 +118,9 @@ if ( !class_exists( 'WP_MCM_Media_List' ) ) {
             if ( !($mcm_toggle_media = absint( $_REQUEST['mcm_toggle_media'] )) ) {
                 wp_send_json_error();
             }
-            $mcm_toggle_taxonomy = $_REQUEST['mcm_toggle_taxonomy'];
-            $mcm_toggle_slug = $_REQUEST['mcm_toggle_slug'];
+            // Sanitize taxonomy and slug (slug may be numeric id or textual slug)
+            $mcm_toggle_taxonomy = sanitize_key( wp_unslash( $_REQUEST['mcm_toggle_taxonomy'] ) );
+            $mcm_toggle_slug = ( is_numeric( $_REQUEST['mcm_toggle_slug'] ) ? absint( $_REQUEST['mcm_toggle_slug'] ) : sanitize_title_with_dashes( wp_unslash( $_REQUEST['mcm_toggle_slug'] ) ) );
             // Toggle the media_category for this media_id
             $bulk_result = $this->mcm_toggle_slug_for_media( $mcm_toggle_media, $mcm_toggle_slug, $mcm_toggle_taxonomy );
             if ( is_wp_error( $bulk_result ) || $bulk_result === false ) {
@@ -360,8 +361,9 @@ if ( !class_exists( 'WP_MCM_Media_List' ) ) {
             }
             // Set some variables
             $num_bulk_toggled = 0;
-            $media_taxonomy = $_REQUEST['bulk_tax_cat'];
-            $bulk_media_category_id = $_REQUEST['bulk_tax_id'];
+            // Sanitize bulk taxonomy and category id
+            $media_taxonomy = ( isset( $_REQUEST['bulk_tax_cat'] ) ? sanitize_key( wp_unslash( $_REQUEST['bulk_tax_cat'] ) ) : '' );
+            $bulk_media_category_id = ( isset( $_REQUEST['bulk_tax_id'] ) ? ( is_numeric( $_REQUEST['bulk_tax_id'] ) ? absint( $_REQUEST['bulk_tax_id'] ) : sanitize_title_with_dashes( wp_unslash( $_REQUEST['bulk_tax_id'] ) ) ) : '' );
             // Process all media_id s found in the request
             foreach ( (array) $_REQUEST['media'] as $media_id ) {
                 $media_id = (int) $media_id;
@@ -623,6 +625,17 @@ if ( !class_exists( 'WP_MCM_Media_List' ) ) {
         function mcm_toggle_slug_for_media( $media_id, $media_category, $media_taxonomy ) {
             // Check parameters provided
             $media_id = (int) $media_id;
+            // Sanitize taxonomy and category defensively
+            $media_taxonomy = sanitize_key( wp_unslash( $media_taxonomy ) );
+            if ( is_numeric( $media_category ) ) {
+                $media_category = absint( $media_category );
+            } else {
+                $media_category = sanitize_title_with_dashes( wp_unslash( $media_category ) );
+            }
+            // Validate taxonomy exists
+            if ( !taxonomy_exists( $media_taxonomy ) ) {
+                return false;
+            }
             // Check whether this user can edit this post
             if ( !current_user_can( 'edit_post', $media_id ) ) {
                 return false;

@@ -6,7 +6,7 @@ Plugin Name: WP Media Category Management
 Description: A plugin to provide bulk category management functionality for media in WordPress sites.
 Author:      DeBAAT
 Author URI:  https://www.de-baat.nl/WP_MCM/
-Version:     2.4.1
+Version:     2.5.0
 Text Domain: wp-media-category-management
 Domain Path: /languages/
 License:     GPL v3
@@ -28,6 +28,39 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 */
 defined( 'ABSPATH' ) || exit;
+// Polyfills for PHP versions that do not provide these string helpers (pre PHP 8.0).
+if ( !function_exists( 'str_contains' ) ) {
+    function str_contains(  string $haystack, string $needle  ) : bool {
+        if ( $needle === '' ) {
+            return true;
+        }
+        return strpos( $haystack, $needle ) !== false;
+    }
+
+}
+if ( !function_exists( 'str_starts_with' ) ) {
+    function str_starts_with(  string $haystack, string $needle  ) : bool {
+        if ( $needle === '' ) {
+            return true;
+        }
+        return substr( $haystack, 0, strlen( $needle ) ) === $needle;
+    }
+
+}
+/**
+ * Define a constant if it is not already defined.
+ *
+ * @param string $name  Constant name.
+ * @param string $value Value.
+ *
+ * @since  2.0.0
+ */
+function wp_mcm_maybe_define_constant(  $name, $value  ) {
+    if ( !defined( $name ) ) {
+        define( $name, $value );
+    }
+}
+
 // Define some constants for use by this add-on
 wp_mcm_maybe_define_constant( 'WP_MCM_FREEMIUS_ID', '10419' );
 //
@@ -102,25 +135,43 @@ wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_IMEX', 'wp_mcm_section_imex' );
 //
 wp_mcm_maybe_define_constant( 'WP_MCM_DEFAULT_EXPORT_FILENAME_PREFIX', 'wp-mcm-export' );
 wp_mcm_maybe_define_constant( 'WP_MCM_DEFAULT_EXPORT_FILENAME_EXT', '.xml' );
+// Define some constants for use by this plugin
+wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_PREFIX', 'wp_mcm_' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_TEXT', 'wp_mcm_text' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_TEXTAREA', 'wp_mcm_textarea' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_CHECKBOX', 'wp_mcm_checkbox' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_DROPDOWN', 'wp_mcm_dropdown' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_SUBHEADER', 'wp_mcm_subheader' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_READONLY', 'wp_mcm_readonly' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_BUTTON', 'wp_mcm_button' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_BUTTON_AJAX', 'wp_mcm_button_ajax' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_CUSTOM', 'wp_mcm_custom' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_ICONLIST', 'wp_mcm_iconlist' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_HIDDEN', 'wp_mcm_hidden' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_DATETIME', 'wp_mcm_datetime' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_FILE', 'wp_mcm_file' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_FILENAME', 'wp_mcm_filename' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_SAVE', 'wp_mcm_action_save' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_UPDATE', 'wp_mcm_action_update' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_REQUEST', 'wp_mcm_action_request' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_SETTINGS', 'wp_mcm_action_settings' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_ROW_TOGGLE', 'wp_mcm_action_row_toggle' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_BULK_TOGGLE', 'wp_mcm_action_bulk_toggle' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_NONCE', 'wp_mcm_action_nonce' );
+wp_mcm_maybe_define_constant( 'WP_MCM_LINK_DESTINATION_NONE', 'none' );
+wp_mcm_maybe_define_constant( 'WP_MCM_LINK_DESTINATION_FILE', 'file' );
+wp_mcm_maybe_define_constant( 'WP_MCM_LINK_DESTINATION_CUSTOM', 'custom' );
+wp_mcm_maybe_define_constant( 'WP_MCM_LINK_DESTINATION_MEDIA', 'media' );
+wp_mcm_maybe_define_constant( 'WP_MCM_LINK_DESTINATION_ATTACHMENT', 'attachment' );
+wp_mcm_maybe_define_constant( 'WP_MCM_MEDIA_SIZESLUG_THUMBNAIL', 'thumbnail' );
+wp_mcm_maybe_define_constant( 'WP_MCM_MEDIA_SIZESLUG_MEDIUM', 'medium' );
+wp_mcm_maybe_define_constant( 'WP_MCM_MEDIA_SIZESLUG_LARGE', 'large' );
+wp_mcm_maybe_define_constant( 'WP_MCM_MEDIA_SIZESLUG_FULL', 'full' );
 if ( !function_exists( 'get_plugin_data' ) ) {
     include_once ABSPATH . 'wp-admin/includes/plugin.php';
 }
 $this_plugin = get_plugin_data( WP_MCM_FILE, false, false );
 wp_mcm_maybe_define_constant( 'WP_MCM_VERSION_NUM', $this_plugin['Version'] );
-/**
- * Define a constant if it is not already defined.
- *
- * @param string $name  Constant name.
- * @param string $value Value.
- *
- * @since  2.0.0
- */
-function wp_mcm_maybe_define_constant(  $name, $value  ) {
-    if ( !defined( $name ) ) {
-        define( $name, $value );
-    }
-}
-
 // Include Freemius SDK integration
 if ( function_exists( 'wp_mcm_freemius' ) ) {
     wp_mcm_freemius()->set_basename( false, __FILE__ );
@@ -132,7 +183,7 @@ if ( function_exists( 'wp_mcm_freemius' ) ) {
             global $wp_mcm_freemius;
             if ( !isset( $wp_mcm_freemius ) ) {
                 // Include Freemius SDK.
-                require_once dirname( __FILE__ ) . '/freemius/start.php';
+                require_once dirname( __FILE__ ) . '/vendor/freemius/start.php';
                 $wp_mcm_freemius = fs_dynamic_init( array(
                     'id'               => WP_MCM_FREEMIUS_ID,
                     'slug'             => WP_MCM_SHORT_SLUG,
