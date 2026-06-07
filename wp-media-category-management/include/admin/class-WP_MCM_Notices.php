@@ -1,8 +1,8 @@
 <?php
 /**
- * Admin Notices
+ * WP Media Category Management Notices
  *
- * @author Tijmen Smit
+ * @author DeBAAT
  * @since  2.0.0
 */
 

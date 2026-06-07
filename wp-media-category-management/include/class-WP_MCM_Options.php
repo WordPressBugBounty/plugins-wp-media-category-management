@@ -292,7 +292,7 @@ if ( !class_exists( 'WP_MCM_Options' ) ) {
 
         /**
          * Set the settings for general options
-         * 
+         *
          * @since 2.0.0
          * @return html
          */

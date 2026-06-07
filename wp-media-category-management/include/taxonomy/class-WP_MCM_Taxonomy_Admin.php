@@ -55,11 +55,17 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
             // Some filters and action to process categories
             add_filter(
                 'attachment_fields_to_edit',
-                array($this, 'mcm_attachment_fields_to_edit'),
+                array($this, 'mcm_taxonomy_attachment_fields_to_edit'),
                 10,
                 2
             );
-            add_action( 'wp_ajax_save-attachment-compat', array($this, 'mcm_ajax_save_attachment_compat'), 0 );
+            add_filter(
+                'attachment_fields_to_save',
+                array($this, 'mcm_taxonomy_attachment_fields_to_save'),
+                10,
+                2
+            );
+            // add_action('wp_ajax_save-attachment-compat',            array($this, 'mcm_ajax_save_attachment_compat'), 0);
             add_filter( 'request', array($this, 'mcm_request_admin') );
             add_filter(
                 'wp_get_attachment_link',
@@ -191,7 +197,7 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
          * @since 2.0.0
          * @return void
          */
-        function mcm_attachment_fields_to_edit( $form_fields, $post ) {
+        function mcm_taxonomy_attachment_fields_to_edit( $form_fields, $post ) {
             global $wp_mcm_walker_category_mediagrid_checklist;
             // $this->debugMP('pr',__FUNCTION__ . ' started with form_fields = ', $form_fields);
             // $this->debugMP('pr',__FUNCTION__ . ' post = ', $post);
@@ -207,6 +213,7 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
                 if ( empty( $cur_taxonomy['label'] ) ) {
                     $cur_taxonomy['label'] = $taxonomy;
                 }
+                $cur_taxonomy['label'] = $cur_taxonomy['label'];
                 if ( empty( $cur_taxonomy['args'] ) ) {
                     $cur_taxonomy['args'] = array();
                 }
@@ -253,8 +260,8 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
          * @since 2.0.0
          * @return void
          */
-        function mcm_attachment_fields_to_save( $post, $attachment ) {
-            $tags_raw = ( isset( $_POST['attachments'][$post['ID']]['tags'] ) ? wp_unslash( $_POST['attachments'][$post['ID']]['tags'] ) : '' );
+        function mcm_taxonomy_attachment_fields_to_save( $post, $attachment_data ) {
+            $tags_raw = ( isset( $attachment_data['tags'] ) ? wp_unslash( $attachment_data['tags'] ) : '' );
             $tags = esc_attr( $tags_raw );
             $tag_arr = array_filter( array_map( 'trim', explode( ',', $tags ) ) );
             $tag_arr_sanitized = array();
@@ -262,6 +269,45 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
                 $tag_arr_sanitized[] = sanitize_text_field( $t );
             }
             wp_set_object_terms( $post['ID'], $tag_arr_sanitized, 'post_tag' );
+            $this->debugMP( 'pr', __FUNCTION__ . ' processed post ' . $post['ID'] . ', tag_arr_sanitized ', $tag_arr_sanitized );
+            return $post;
+        }
+
+        /**
+         * When saving a attachment change the taxonomies.
+         *
+         * @param WP_Post $post
+         * @param array $attachment_data
+         * @return WP_Post
+         *
+         *  @since    2.6.0
+         */
+        public function mcm_taxonomy_attachment_fields_to_save_old( $post, $attachment_data ) {
+            $post_id = $post['ID'];
+            foreach ( get_attachment_taxonomies( $post ) as $taxonomy ) {
+                if ( isset( $attachment_data[$taxonomy] ) ) {
+                    wp_set_object_terms(
+                        $post_id,
+                        array_map( 'trim', preg_split( '/,+/', $attachment_data[$taxonomy] ) ),
+                        $taxonomy,
+                        false
+                    );
+                } elseif ( isset( $_REQUEST['tax_input'] ) && isset( $_REQUEST['tax_input'][$taxonomy] ) ) {
+                    wp_set_object_terms(
+                        $post_id,
+                        $_REQUEST['tax_input'][$taxonomy],
+                        $taxonomy,
+                        false
+                    );
+                } else {
+                    wp_set_object_terms(
+                        $post_id,
+                        '',
+                        $taxonomy,
+                        false
+                    );
+                }
+            }
             return $post;
         }
 
@@ -328,8 +374,6 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
                 wp_send_json_error();
             }
             wp_send_json_success( $attachment );
-            // don't forget to end your scripts with a die() function - very important
-            die;
         }
 
         /**

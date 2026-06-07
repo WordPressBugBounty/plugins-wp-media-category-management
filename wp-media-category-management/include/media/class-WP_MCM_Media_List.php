@@ -85,7 +85,17 @@ if ( !class_exists( 'WP_MCM_Media_List' ) ) {
         public function wp_mcm_media_list_scripts() {
             $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
             // Register the JS file with a unique handle, file location, and an array of dependencies
-            wp_register_script( "wp_mcm_row_toggle_script", WP_MCM_PLUGIN_URL . '/js/wp-mcm-media-list-toggle.js', array('jquery') );
+            $mcm_row_toggle_script = WP_MCM_PLUGIN_DIR . '/js/wp-mcm-media-list-toggle.js';
+            $mcm_row_toggle_script_version = WP_MCM_VERSION_NUM;
+            if ( file_exists( $mcm_row_toggle_script ) ) {
+                $mcm_row_toggle_script_version = WP_MCM_VERSION_NUM . '.' . filemtime( $mcm_row_toggle_script );
+            }
+            wp_register_script(
+                "wp_mcm_row_toggle_script",
+                WP_MCM_PLUGIN_URL . '/js/wp-mcm-media-list-toggle.js',
+                array('jquery'),
+                $mcm_row_toggle_script_version
+            );
             // localize the script to your domain name, so that you can reference the url to admin-ajax.php file easily
             wp_localize_script( 'wp_mcm_row_toggle_script', 'mcmAjax', array(
                 'ajaxurl' => admin_url( 'admin-ajax.php' ),
@@ -521,7 +531,9 @@ if ( !class_exists( 'WP_MCM_Media_List' ) ) {
             $taxonomy_id = $this->mcm_create_taxonomy_id( $taxonomy_key, $post_id );
             $output_opening_escaped = '<div class="' . esc_attr( $taxonomy_class ) . '" id="' . esc_attr( $taxonomy_id ) . '">';
             $output_closing_escaped = '</div>';
-            $this->debugMP( 'msg', __FUNCTION__ . ' taxonomy_key = ' . $taxonomy_key . ' taxonomy_id = ' . $taxonomy_id . ', column_name = ' . $column_name . ', post_id = ' . $post_id . '.' );
+            // $this->debugMP('msg', __FUNCTION__ . ' taxonomy_key = ' . $taxonomy_key . ' taxonomy_id = ' . $taxonomy_id . ', column_name = ' . $column_name . ', post_id = ' . $post_id . '.');
+            //$this->debugMP('pr', __FUNCTION__ . ' taxonomy_key = ' . $taxonomy_key . ' taxonomy_id = ' . $taxonomy_id . ', column_name = ' . $column_name . ', post_id = ' . $post_id . ', wp_get_attachment_metadata: ', wp_get_attachment_metadata($post_id));
+            //$this->debugMP('pr', __FUNCTION__ . ' taxonomy_key = ' . $taxonomy_key . ' taxonomy_id = ' . $taxonomy_id . ', column_name = ' . $column_name . ', post_id = ' . $post_id . ', get_post_meta: ', get_post_meta($post_id));
             switch ( $taxonomy_key ) {
                 case WP_MCM_MEDIA_TAXONOMY:
                 case WP_MCM_POST_TAXONOMY:

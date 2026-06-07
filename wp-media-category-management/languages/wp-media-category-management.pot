@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: WP Media Category Management\n"
 "Report-Msgid-Bugs-To: https://www.de-baat.nl/WP_MCM\n"
-"POT-Creation-Date: 2024-04-07 10:02+0200\n"
+"POT-Creation-Date: 2026-06-07 14:16+0200\n"
 "PO-Revision-Date: 2015-06-13 11:20+0100\n"
 "Last-Translator: De BAAT <De_BAAT@de-baat.nl>\n"
 "Language-Team: De B.A.A.T. <wp-mcm@de-baat.nl>\n"
@@ -14,121 +14,213 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Poedit 3.4.1\n"
-"X-Poedit-KeywordsList: __;_e;_n;_x;esc_html_e;esc_html__;esc_attr_e;"
-"esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c;_n:1,2\n"
+"X-Generator: Poedit 3.9\n"
+"X-Poedit-KeywordsList: "
+"__;_e;_n;_x;esc_html_e;esc_html__;esc_attr_e;esc_attr__;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2;_x:1,2c;_n:1,2\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-SearchPath-0: .\n"
 
-#: include/admin/class-WP_MCM_Admin.php:197
+#: include/admin/class-WP_MCM_Admin.php:203
 #, php-format
 msgid ""
 "Hey, you've been using <strong>WP Media Category Management</strong> for "
 "more than %s since the last update."
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:199
+#: include/admin/class-WP_MCM_Admin.php:205
 msgid ""
 "In the mean time I refactored the complete plugin code base and added some "
 "premium features."
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:201
+#: include/admin/class-WP_MCM_Admin.php:207
 msgid ""
 "Could you please do me a BIG favor and help me out testing this migration?"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:204
+#: include/admin/class-WP_MCM_Admin.php:210
 #, php-format
 msgid ""
 "Please leave some suggestions at the <a href=\"%s\" "
 "target=\"_blank\">support page</a> of this plugin"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:207
+#: include/admin/class-WP_MCM_Admin.php:213
 #, php-format
 msgid ""
 "or directly at the <a href=\"%s\" target=\"_blank\">help appreciated</a> "
 "topic."
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:209
+#: include/admin/class-WP_MCM_Admin.php:215
 msgid "Your help is much appreciated!"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:211
+#: include/admin/class-WP_MCM_Admin.php:217
 msgid "Thank you very much!"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:214
+#: include/admin/class-WP_MCM_Admin.php:220
 #, php-format
 msgid "author of this <a href=\"%s\" target=\"_blank\">WP MCM</a> plugin."
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:217
+#: include/admin/class-WP_MCM_Admin.php:223
 #, php-format
 msgid ""
 "<a href=\"%s\" class=\"mcm-dismissible-notice\" target=\"_blank\" "
-"rel=\"noopener\">Ok, I may leave some advice</a><br /><a href=\"javascript:"
-"void(0);\" class=\"mcm-dismissible-notice mcm-delay-notice\" "
-"rel=\"noopener\">Nope, maybe later</a><br /><a href=\"javascript:void(0);\" "
-"class=\"mcm-dismissible-notice\" rel=\"noopener\">I already did</a>"
+"rel=\"noopener\">Ok, I may leave some advice</a><br /><a "
+"href=\"javascript:void(0);\" class=\"mcm-dismissible-notice mcm-delay-"
+"notice\" rel=\"noopener\">Nope, maybe later</a><br /><a "
+"href=\"javascript:void(0);\" class=\"mcm-dismissible-notice\" "
+"rel=\"noopener\">I already did</a>"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:351
+#: include/admin/class-WP_MCM_Admin.php:335
 msgid "Settings"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:503
-#: include/admin/class-WP_MCM_Admin.php:504
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:391
+#: include/admin/class-WP_MCM_Admin.php:389
+#: include/admin/class-WP_MCM_Admin.php:397
+#: include/folder/class-WP_MCM_Folder_Admin.php:840
+#: include/folder/class-WP_MCM_Folder_Admin.php:848
+#: include/imexport/class-WP_MCM_ImExport_Admin.php:183
+#: include/imexport/class-WP_MCM_ImExport_Admin.php:191
+msgid "Sorry, you are not allowed to handle the requested action!"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Admin.php:515
+#: include/admin/class-WP_MCM_Admin.php:516
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:394
 msgid "WP MCM"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:559
+#: include/admin/class-WP_MCM_Admin.php:574
 msgid "WP MCM Settings"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:560
+#: include/admin/class-WP_MCM_Admin.php:575
 msgid "Shortcode Info"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:562
-#: include/imexport/class-WP_MCM_ImExport_Admin.php:372
+#: include/admin/class-WP_MCM_Admin.php:577
+#: include/folder/class-WP_MCM_Folder_Admin.php:908
+#: include/folder/class-WP_MCM_Folder_Admin.php:924
+msgid "Folder Management"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Admin.php:578
+#: include/imexport/class-WP_MCM_ImExport_Admin.php:408
 msgid "Import - Export"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Admin.php:568
+#: include/admin/class-WP_MCM_Admin.php:584
 msgid "WP Media Category Management"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Render_Settings.php:837
+#: include/admin/class-WP_MCM_Render_Settings.php:100
+msgid "Please enter a folder name"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:101
+msgid "Folder name contains only invalid characters"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:102
+msgid "Creating..."
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:103
+msgid "Folder created"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:104
+msgid "Error processing response"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:105
+msgid "Rename folder"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:106
+#: include/folder/class-WP_MCM_Folder_Admin.php:168
+msgid "Cancel"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:107
+msgid "Ok"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:108
+msgid "Please enter a new folder name"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:109
+msgid "New folder name contains only invalid characters"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:110
+#: include/folder/class-WP_MCM_Folder_Admin.php:724
+msgid "New name must be different from current name"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:111
+msgid "Renaming..."
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:112
+msgid "Folder renamed"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:113
+#: include/folder/class-WP_MCM_Folder_Ajax.php:148
+#: include/folder/class-WP_MCM_Folder_Ajax.php:230
+msgid "Folder name is required"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:114
+msgid "Deleting..."
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:115
+msgid "Folder deleted"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Render_Settings.php:948
 #, php-format
 msgid "Could not read icon directory %s"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Settings.php:237
+#: include/admin/class-WP_MCM_Settings.php:191
+msgid "Sorry, you are not allowed to update WP MCM Settings!"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Settings.php:274
 msgid "Save Settings"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Settings.php:239
+#: include/admin/class-WP_MCM_Settings.php:293
 msgid "General Settings"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Settings.php:243
+#: include/admin/class-WP_MCM_Settings.php:298
+msgid "Folder Settings"
+msgstr ""
+
+#: include/admin/class-WP_MCM_Settings.php:301
 msgid "Toggle Assign Settings"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Settings.php:245
+#: include/admin/class-WP_MCM_Settings.php:304
 msgid "Premium Settings"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Settings.php:247
+#: include/admin/class-WP_MCM_Settings.php:307
 msgid "User Managed Settings"
 msgstr ""
 
-#: include/admin/class-WP_MCM_Settings.php:249
+#: include/admin/class-WP_MCM_Settings.php:310
 msgid "Export Settings"
 msgstr ""
 
@@ -234,66 +326,66 @@ msgstr ""
 msgid "Link To"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:299 include/class-WP_MCM_Options.php:681
-#: include/class-WP_MCM_Options.php:685
+#: include/class-WP_MCM_Options.php:320 include/class-WP_MCM_Options.php:704
+#: include/class-WP_MCM_Options.php:708
 msgid "View attachment page"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:302 include/class-WP_MCM_Options.php:682
-#: include/class-WP_MCM_Options.php:684
+#: include/class-WP_MCM_Options.php:323 include/class-WP_MCM_Options.php:705
+#: include/class-WP_MCM_Options.php:707
 msgid "View media file"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:331
+#: include/class-WP_MCM_Options.php:353
 msgid "No taxonomy"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:353
+#: include/class-WP_MCM_Options.php:376
 #: include/shortcode/class-WP_MCM_Shortcode.php:75
 msgid "No default category"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:421
+#: include/class-WP_MCM_Options.php:445
 msgid "Toggle Assign"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:427
+#: include/class-WP_MCM_Options.php:451
 msgid "Show category toggles in list view?"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:432
+#: include/class-WP_MCM_Options.php:456
 msgid "Media Taxonomy To Use"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:439
+#: include/class-WP_MCM_Options.php:463
 msgid "Which taxonomy should be used to manage the media?"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:441
+#: include/class-WP_MCM_Options.php:465
 msgid "means that the taxonomy is also used for posts."
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:443
+#: include/class-WP_MCM_Options.php:467
 msgid "means that the taxonomy is also used as tags for posts."
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:445
+#: include/class-WP_MCM_Options.php:469
 msgid ""
 "means that the taxonomy may have been registered previously, e.g. by another "
 "plugin."
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:447
+#: include/class-WP_MCM_Options.php:471
 msgid ""
 "means that the taxonomy is currently assigned to <strong>X</strong> "
 "attachments."
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:455
+#: include/class-WP_MCM_Options.php:479
 msgid "MCM Category base"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:463
+#: include/class-WP_MCM_Options.php:487
 #, php-format
 msgid ""
 "If you like, you may enter a custom structure for your MCM category URL "
@@ -302,165 +394,506 @@ msgid ""
 "leave it blank the default will be used."
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:468
+#: include/class-WP_MCM_Options.php:492
 msgid "Name for Custom MCM Taxonomy"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:475
+#: include/class-WP_MCM_Options.php:499
 msgid ""
 "What text should be used as <strong>plural</strong> name for the Custom MCM "
 "Taxonomy?"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:480
+#: include/class-WP_MCM_Options.php:504
 msgid "Custom Singular Name"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:487
+#: include/class-WP_MCM_Options.php:511
 msgid ""
 "What text should be used as <strong>singular</strong> name for the Custom "
 "MCM Taxonomy?"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:492
+#: include/class-WP_MCM_Options.php:516
 msgid "Use Default Category"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:498
+#: include/class-WP_MCM_Options.php:522
 msgid "Use the default category when adding or editing an attachment?"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:503
+#: include/class-WP_MCM_Options.php:527
 msgid "Default Media Category"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:509
+#: include/class-WP_MCM_Options.php:533
 msgid ""
 "Which category of the selected media taxonomy should be used as default?"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:516
+#: include/class-WP_MCM_Options.php:540
 msgid "Use Post Taxonomy"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:522
+#: include/class-WP_MCM_Options.php:546
 msgid "Use the category used for posts also explicitly for attachments?"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:527
+#: include/class-WP_MCM_Options.php:551
 msgid "Search Media Library"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:533
+#: include/class-WP_MCM_Options.php:557
 msgid "Also search the media library for matching titles when searching?"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:538
-msgid "Use Gutenberg Filter"
-msgstr ""
-
-#: include/class-WP_MCM_Options.php:544
-msgid "Use the media filter on Gutenberg blocks for posts and pages?"
-msgstr ""
-
-#: include/class-WP_MCM_Options.php:558
+#: include/class-WP_MCM_Options.php:582
 msgid "Show Notice"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:565
+#: include/class-WP_MCM_Options.php:589
 #, php-format
 msgid "Show the notice message (again)%s?"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:606
+#: include/class-WP_MCM_Options.php:630
 msgid "Whether to show this category in the list view."
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:639
+#: include/class-WP_MCM_Options.php:663
 msgid "Use gallery for archive"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:645
+#: include/class-WP_MCM_Options.php:669
 msgid ""
 "When set, the archive page shows the content as if it was generated using "
 "the WP_MCM Gallery shortcode."
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:650
+#: include/class-WP_MCM_Options.php:674
 msgid "Default section"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:656
+#: include/class-WP_MCM_Options.php:680
 msgid "Define the default section to show when landing on this Settings page."
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:663
+#: include/class-WP_MCM_Options.php:687
 msgid "General datetime format:"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:671
+#: include/class-WP_MCM_Options.php:695
 msgid "Shows the format used for datetime options."
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:673
+#: include/class-WP_MCM_Options.php:697
 #, php-format
 msgid ""
 "It is a combination of the general date time settings as defined on the <a "
 "href=\"%s\">General Settings</a> page."
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:689
+#: include/class-WP_MCM_Options.php:712
 #, php-format
 msgid "Value of wp_attachment_pages_enabled is <strong>%s</strong>,"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:696
+#: include/class-WP_MCM_Options.php:719
 #, php-format
 msgid "Toggle to: %s"
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:697
+#: include/class-WP_MCM_Options.php:720
 msgid "Toggles the value of wp_attachment_pages_enabled."
 msgstr ""
 
-#: include/class-WP_MCM_Options.php:699
+#: include/class-WP_MCM_Options.php:722
 #, php-format
 msgid "The value is currently set to <strong>%s</strong>."
 msgstr ""
 
-#: include/imexport/class-WP_MCM_ImExport.php:126
+#: include/folder/class-WP_MCM_Folder_Admin.php:165
+msgid "Select Folder"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:166
+msgid "Move"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:167
+msgid "Restore"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:169
+msgid "Moving..."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:170
+msgid "Restoring..."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:171
+msgid "Media moved successfully!"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:172
+#: include/folder/class-WP_MCM_Folder_Ajax.php:400
+msgid "Media restored successfully!"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:173
+msgid "Error moving media."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:174
+msgid "Error restoring media."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:175
+msgid "Original location"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:176
+msgid "Current location"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:177
+msgid "Please select a folder."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:266
+#: include/folder/class-WP_MCM_Folder_Admin.php:271
+msgid "No folder"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:278
+#, php-format
+msgid "Current MCM folder: %s. Select another folder to move this media item."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:282
+#, php-format
+msgid "Current MCM folder: %s. Upgrade to premium to edit this value."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:286
+msgid "MCM Folder"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:356
+#: include/folder/class-WP_MCM_Folder_Admin.php:375
+msgid "Move to Folder"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:432
+#: include/media/class-WP_MCM_Media_Admin.php:205
+#: include/media/class-WP_MCM_Media_Admin.php:269
+msgid "Show all MCM folders"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:434
+#, php-format
+msgid "No MCM folder (%d)"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:505
+#: include/folder/class-WP_MCM_Folder_Admin.php:590
+msgid "Attachment is not valid."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:512
+#: include/folder/class-WP_MCM_Folder_Admin.php:595
+msgid "Attachment file missing or unreadable."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:522
+#, php-format
+msgid "Unable to create directory: %s"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:527
+#: include/folder/class-WP_MCM_Folder_Admin.php:622
+#, php-format
+msgid "Unable to move file from %1$s to %2$s"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:539
+#: include/folder/class-WP_MCM_Folder_Admin.php:633
+#, php-format
+msgid "Unable to move generated file from %1$s to %2$s"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:572
+msgid "Original location not found for this media."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:600
+msgid "Invalid folder name."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:613
+#, php-format
+msgid "Unable to create target folder: %s"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:640
+msgid "Unable to update attachment file metadata."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:669
+#: include/folder/class-WP_MCM_Folder_Admin.php:785
+msgid "Invalid folder name"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:678
+msgid "Folder already exists"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:685
+msgid "Failed to create folder. Check permissions."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:692
+#, php-format
+msgid "Folder \"%s\" created successfully"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:717
+msgid "Invalid folder name(s)"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:737
+msgid "Source folder does not exist"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:747
+msgid "Target folder name already exists"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:757
+msgid "Failed to rename folder. Check permissions."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:764
+#, php-format
+msgid "Folder renamed from \"%1$s\" to \"%2$s\""
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:794
+msgid "Folder does not exist"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:803
+msgid "Folder is not empty. Please delete all files first."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:810
+msgid "Failed to delete folder. Check permissions."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:817
+#, php-format
+msgid "Folder \"%s\" deleted successfully"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:912
+msgid ""
+"This page manages media folders - create, view, and rename folders for "
+"organizing your media library."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:918
+#: include/imexport/class-WP_MCM_ImExport_Admin.php:418
+#: include/shortcode/class-WP_MCM_Shortcode_Admin.php:93
+msgid "Your Settings have been saved."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:926
+msgid "Manage Existing MCM Folders"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:929
+msgid "Create"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Admin.php:931
+msgid "Create New MCM Folder"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:136
+#: include/folder/class-WP_MCM_Folder_Ajax.php:178
+#: include/folder/class-WP_MCM_Folder_Ajax.php:218
+msgid "Nonce verification failed"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:141
+#: include/folder/class-WP_MCM_Folder_Ajax.php:183
+#: include/folder/class-WP_MCM_Folder_Ajax.php:223
+#: include/folder/class-WP_MCM_Folder_Ajax.php:263
+#: include/folder/class-WP_MCM_Folder_Ajax.php:311
+#: include/folder/class-WP_MCM_Folder_Ajax.php:385
+msgid "Insufficient permissions"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:153
+#: include/folder/class-WP_MCM_Folder_Ajax.php:196
+#: include/folder/class-WP_MCM_Folder_Ajax.php:235
+#: include/folder/class-WP_MCM_Folder_Ajax.php:276
+#: include/folder/class-WP_MCM_Folder_Ajax.php:326
+#: include/folder/class-WP_MCM_Folder_Ajax.php:395
+msgid "Folder service unavailable"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:191
+msgid "Folder names are required"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:258
+#: include/folder/class-WP_MCM_Folder_Ajax.php:306
+#: include/folder/class-WP_MCM_Folder_Ajax.php:380
+msgid "Security check failed"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:270
+#: include/folder/class-WP_MCM_Folder_Ajax.php:318
+msgid "Invalid parameters"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:282
+msgid "Media moved successfully"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:285
+msgid "Failed to move media"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:348
+#, php-format
+msgid "%d media item moved successfully"
+msgid_plural "%d media items moved successfully"
+msgstr[0] ""
+msgstr[1] ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:359
+#, php-format
+msgid " (%d failed)"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:366
+msgid "Failed to move any media items"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Ajax.php:390
+msgid "Invalid attachment ID."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:65
+msgid "Organize Files by Folder"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:71
+msgid ""
+"Organize uploaded files into physical folder subdirectories based on folder "
+"taxonomy?"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:76
+msgid "Default Media Folder"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:82
+msgid "Which folder should be used as default for new uploads?"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:89
+msgid "Folder Action Message Timeout"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:97
+#, php-format
+msgid ""
+"Number of seconds to display folder action messages (create, rename, delete) "
+"before they auto-hide. Default: <strong>%s</strong> seconds."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:117
+msgid "Folder Manager"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:123
+msgid ""
+"Manage media folders - create, view, and rename folders for organizing your "
+"media library."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:189
+msgid "New folder name"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:196
+msgid "The name of the MCM Folder to be created."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:207
+msgid "Create Folder"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:222
+msgid "No default folder"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:279
+msgid "Folder Name"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:280
+msgid "Actions"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:296
+msgid "Rename"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:300
+msgid "Delete"
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:302
+msgid "Folder cannot be deleted because it is not empty."
+msgstr ""
+
+#: include/folder/class-WP_MCM_Folder_Options.php:311
+msgid "No folders created yet."
+msgstr ""
+
+#: include/imexport/class-WP_MCM_ImExport.php:131
 msgid "No dates found"
 msgstr ""
 
-#: include/imexport/class-WP_MCM_ImExport.php:128
+#: include/imexport/class-WP_MCM_ImExport.php:133
 msgid "All dates"
 msgstr ""
 
-#: include/imexport/class-WP_MCM_ImExport_Admin.php:376
+#: include/imexport/class-WP_MCM_ImExport_Admin.php:412
 msgid ""
 "This page shows the import and export functionality supported by the WP "
 "Media Category Management plugin."
 msgstr ""
 
-#: include/imexport/class-WP_MCM_ImExport_Admin.php:382
-#: include/shortcode/class-WP_MCM_Shortcode_Admin.php:93
-msgid "Your Settings have been saved."
-msgstr ""
-
-#: include/imexport/class-WP_MCM_ImExport_Admin.php:388
+#: include/imexport/class-WP_MCM_ImExport_Admin.php:424
 msgid "Export"
 msgstr ""
 
-#: include/imexport/class-WP_MCM_ImExport_Admin.php:390
+#: include/imexport/class-WP_MCM_ImExport_Admin.php:426
 #: include/imexport/class-WP_MCM_ImExport_Options.php:187
 msgid "Export MCM Categories"
 msgstr ""
 
-#: include/imexport/class-WP_MCM_ImExport_Admin.php:393
+#: include/imexport/class-WP_MCM_ImExport_Admin.php:429
 msgid "Import"
 msgstr ""
 
-#: include/imexport/class-WP_MCM_ImExport_Admin.php:395
+#: include/imexport/class-WP_MCM_ImExport_Admin.php:431
 msgid "Import MCM Categories"
 msgstr ""
 
@@ -552,7 +985,6 @@ msgstr ""
 #: include/imexport/class-WP_MCM_ImExport_Options.php:283
 #: include/imexport/class-WP_MCM_ImExport_Options.php:288
 #, php-format
-msgctxt "wp-media-category-management"
 msgid "Install %s now"
 msgstr ""
 
@@ -602,55 +1034,86 @@ msgstr ""
 msgid "The button shows the action needed to use the importer."
 msgstr ""
 
-#: include/media/class-WP_MCM_Media_Admin.php:92
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:100
+#: include/media/class-WP_MCM_Media_Admin.php:106
+#: include/media/class-WP_MCM_Media_Admin.php:177
+#: include/media/class-WP_MCM_Media_Admin.php:244
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:108
 msgid "Show all"
 msgstr ""
 
-#: include/media/class-WP_MCM_Media_Admin.php:93
-#: include/media/class-WP_MCM_Media_Admin.php:217
+#: include/media/class-WP_MCM_Media_Admin.php:107
+#: include/media/class-WP_MCM_Media_Admin.php:178
+#: include/media/class-WP_MCM_Media_Admin.php:245
+#: include/media/class-WP_MCM_Media_Admin.php:408
 msgid "No"
 msgstr ""
 
-#: include/media/class-WP_MCM_Media_Admin.php:166
+#: include/media/class-WP_MCM_Media_Admin.php:204
+#: include/media/class-WP_MCM_Media_Admin.php:268
+msgid "MCM folders"
+msgstr ""
+
+#: include/media/class-WP_MCM_Media_Admin.php:206
+#: include/media/class-WP_MCM_Media_Admin.php:270
+msgid "No MCM folder"
+msgstr ""
+
+#: include/media/class-WP_MCM_Media_Admin.php:207
+#: include/media/class-WP_MCM_Media_Admin.php:271
+msgid ""
+"Change the folder for this media item? The file will be moved when clicked "
+"OK."
+msgstr ""
+
+#: include/media/class-WP_MCM_Media_Admin.php:304
 msgid "Filter by"
 msgstr ""
 
-#: include/media/class-WP_MCM_Media_Admin.php:183
+#: include/media/class-WP_MCM_Media_Admin.php:372
 msgid "tags"
 msgstr ""
 
-#: include/media/class-WP_MCM_Media_Admin.php:186
+#: include/media/class-WP_MCM_Media_Admin.php:375
 msgid "Post categories"
 msgstr ""
 
-#: include/media/class-WP_MCM_Media_Admin.php:189
+#: include/media/class-WP_MCM_Media_Admin.php:379
 msgid "MCM categories"
 msgstr ""
 
-#: include/media/class-WP_MCM_Media_Admin.php:216
+#: include/media/class-WP_MCM_Media_Admin.php:407
 msgid "View all"
 msgstr ""
 
-#: include/media/class-WP_MCM_Media_List.php:114
+#: include/media/class-WP_MCM_Media_List.php:120
 msgid "Not allowed to change the value!"
 msgstr ""
 
-#: include/media/class-WP_MCM_Media_List.php:173
-#: include/media/class-WP_MCM_Media_List.php:354
+#: include/media/class-WP_MCM_Media_List.php:181
+#: include/media/class-WP_MCM_Media_List.php:364
 msgid "Toggle"
 msgstr ""
 
-#: include/media/class-WP_MCM_Media_List.php:417
+#: include/media/class-WP_MCM_Media_List.php:436
 #, php-format
 msgid "%s media bulk toggled."
 msgstr ""
 
-#: include/media/class-WP_MCM_Media_List.php:579
+#: include/media/class-WP_MCM_Media_List.php:505
+msgid "Media Folder"
+msgstr ""
+
+#: include/media/class-WP_MCM_Media_List.php:620
 msgid "No MCM taxonomy"
 msgstr ""
 
-#: include/media/wp-mcm-content-media.php:33
+#: include/media/class-WP_MCM_Media_List.php:758
+#: include/media/class-WP_MCM_Media_List.php:765
+#: include/media/class-WP_MCM_Media_List.php:783
+msgid "Not moved"
+msgstr ""
+
+#: include/media/wp-mcm-content-media.php:35
 msgid ""
 "It seems we can&rsquo;t find what you&rsquo;re looking for. Perhaps "
 "searching can help."
@@ -931,8 +1394,8 @@ msgid "Custom MCM Category"
 msgstr ""
 
 #: include/taxonomy/class-WP_MCM_Taxonomy.php:527
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:236
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:335
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:229
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:339
 msgid "All"
 msgstr ""
 
@@ -974,74 +1437,74 @@ msgstr ""
 msgid "No users found"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:99
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:107
 msgid "MCM Users"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:245
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:240
 msgid "Published"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:254
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:251
 msgid "Draft"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:263
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:262
 msgid "Pending"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:272
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:273
 msgid "Trash"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:355
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:358
 msgid "Unattached"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:379
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:382
 msgid "User is allowed to manage media."
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:382
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:385
 #, php-format
 msgid "Currently managing %d media."
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:386
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:389
 msgid "User is not allowed to manage any media."
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:394
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:397
 msgid "User Managed Media"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:475
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:521
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:482
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:531
 msgid "Allow"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:476
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:522
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:483
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:532
 msgid "Disallow"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:488
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:496
 msgid "Manage Media"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:489
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:497
 msgid "#Media"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:545
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:556
 msgid "No capability"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:549
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:560
 msgid "Allowed"
 msgstr ""
 
-#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:553
+#: include/usermanaged/class-WP_MCM_UserManaged_Admin.php:564
 msgid "Disallowed"
 msgstr ""
 
@@ -1055,15 +1518,19 @@ msgid ""
 "immediately."
 msgstr ""
 
-#: wp-media-category-management.php:312
+#: vendor/freemius/assets/js/pricing/freemius-pricing.js:2
+msgid "display"
+msgstr ""
+
+#: wp-media-category-management.php:419
 msgid "WP Media Category Management upload directory error."
 msgstr ""
 
-#: wp-media-category-management.php:355
+#: wp-media-category-management.php:464
 msgid ", "
 msgstr ""
 
-#: wp-media-category-management.php:382
+#: wp-media-category-management.php:492
 #, php-format
 msgid "Content WP_MCM shortcode for taxonomy %1$s and category %2$s!"
 msgstr ""

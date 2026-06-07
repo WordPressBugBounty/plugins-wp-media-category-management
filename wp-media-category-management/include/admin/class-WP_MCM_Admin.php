@@ -195,7 +195,7 @@ if ( !class_exists( 'WP_MCM_Admin' ) ) {
                 echo '
 				<div class="' . esc_attr( $notice['status'] ) . '">
 					' . (( $notice['paragraph'] ? '<p>' : '' )) . '
-					' . $notice['html'] . '
+					' . esc_html( $notice['html'] ) . '
 					' . (( $notice['paragraph'] ? '</p>' : '' )) . '
 				</div>';
             }
@@ -213,17 +213,17 @@ if ( !class_exists( 'WP_MCM_Admin' ) ) {
             $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
             ?>
 			<script type="text/javascript">
-				( function ( $ ) {
-					$( document ).ready( function () {
+				(function($) {
+					$(document).ready(function() {
 						// save dismiss state
-						$( '.mcm-notice.is-dismissible' ).on( 'click', '.notice-dismiss, .mcm-dismissible-notice', function ( e ) {
+						$('.mcm-notice.is-dismissible').on('click', '.notice-dismiss, .mcm-dismissible-notice', function(e) {
 							var notice_action = 'hide';
-							
-							if ( $( e.currentTarget ).hasClass( 'mcm-delay-notice' ) ) {
+
+							if ($(e.currentTarget).hasClass('mcm-delay-notice')) {
 								notice_action = 'delay'
 							}
-							
-							$.post( ajaxurl, {
+
+							$.post(ajaxurl, {
 								action: 'mcm_dismiss_notice',
 								notice_action: notice_action,
 								url: '<?php 
@@ -232,14 +232,14 @@ if ( !class_exists( 'WP_MCM_Admin' ) ) {
 								nonce: '<?php 
             echo esc_attr( wp_create_nonce( 'mcm_dismiss_notice' ) );
             ?>'
-							} );
+							});
 
-							$( e.delegateTarget ).slideUp( 'fast' );
-						} );
-					} );
-				} )( jQuery );
+							$(e.delegateTarget).slideUp('fast');
+						});
+					});
+				})(jQuery);
 			</script>
-			<?php 
+<?php 
         }
 
         /**
@@ -471,7 +471,17 @@ if ( !class_exists( 'WP_MCM_Admin' ) ) {
                 false,
                 WP_MCM_VERSION_NUM
             );
-            wp_enqueue_script( 'wp_mcm_script', WP_MCM_PLUGIN_URL . '/js/wp-mcm-admin.js' );
+            $mcm_admin_script = WP_MCM_PLUGIN_DIR . '/js/wp-mcm-admin.js';
+            $mcm_admin_script_version = WP_MCM_VERSION_NUM;
+            if ( file_exists( $mcm_admin_script ) ) {
+                $mcm_admin_script_version = WP_MCM_VERSION_NUM . '.' . filemtime( $mcm_admin_script );
+            }
+            wp_enqueue_script(
+                'wp_mcm_script',
+                WP_MCM_PLUGIN_URL . '/js/wp-mcm-admin.js',
+                array(),
+                $mcm_admin_script_version
+            );
         }
 
         /**

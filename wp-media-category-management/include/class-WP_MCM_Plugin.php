@@ -6,6 +6,15 @@
  * @package   WP_MCM_Plugin
  * @author    De B.A.A.T. <wp-mcm@de-baat.nl>
  */
+if ( !defined( 'ABSPATH' ) ) {
+    exit;
+}
+/**
+ * WP_MCM_Plugin class.
+ *
+ * @package   WP_MCM_Plugin
+ * @author    De B.A.A.T. <wp-mcm@de-baat.nl>
+ */
 if ( !class_exists( 'WP_MCM_Plugin' ) ) {
     class WP_MCM_Plugin {
         public $wp_mcm_date_format;

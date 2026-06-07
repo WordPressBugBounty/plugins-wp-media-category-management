@@ -2,13 +2,13 @@
 Contributors: DeBAAT, freemius
 Donate link: https://www.de-baat.nl/WP_MCM
 Tags: media category, bulk toggle, toggle category, media filter, user media management
-Requires at least: 5.9
-Tested up to: 6.9
-Stable tag: 2.5.0
+Requires at least: 6.9
+Tested up to: 7.0
+Stable tag: 2.5.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-A plugin to provide bulk category management functionality for media in WordPress sites.
+A plugin to provide bulk category management functionality for media in WordPress sites. Now includes media folder management for organizing files into hierarchical folders.
 
 == Description ==
 This WordPress plugin will ease the management of media categories, including bulk actions.
@@ -20,8 +20,10 @@ It now also supports post tags and media taxonomies defined by other plugins.
 
 * Use post categories or dedicated MCM media categories.
 * Control your media categories via admin the same way as post categories.
+* Organize media into hierarchical folders for better file management.
+* Optionally organize uploaded files into physical folder subdirectories.
 * Bulk toggle any media taxonomy assignment from Media Library via admin.
-* Filter media files in Media Library by your custom taxonomies, both in List and Grid view.
+* Filter media files in Media Library by your custom taxonomies and folders, both in List and Grid view.
 * Use new or existing shortcode to filter the media on galleries in posts and pages.
 * Use a default category while uploading (see FAQ section). 
 
@@ -101,6 +103,12 @@ Use the `[wp_mcm]` shortcode. Various shortcode uses are explained in the **WP M
 15. The admin page showing the options for Import - Export using this plugin.
 
 == Changelog ==
+
+= 2.5.1 =
+* Tested for WP 7.0
+* Updated Freemius sdk to v2.13.1
+* Fixed some small security issues
+* Started Folder Management
 
 = 2.5.0 =
 * Tested for WP 6.9

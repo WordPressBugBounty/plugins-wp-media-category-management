@@ -63,13 +63,13 @@ if ( !class_exists( 'WP_MCM_Settings' ) ) {
          * @since 2.0.0
          * @return html contents
          */
-        public function wp_mcm_render_section_escaped() {
-            $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
+        public function wp_mcm_render_section_escaped( $section = WP_MCM_SECTION_GEN ) {
+            $this->debugMP( 'msg', __FUNCTION__ . ' started for section: ' . $section );
             $this->set_mcm_settings_params();
             // Handle actions for settings if defined
             $this->wp_mcm_handle_action_settings();
             // Render the output for this section
-            return $this->wp_mcm_render_section_escaped_output();
+            return $this->wp_mcm_render_section_escaped_output( $section );
         }
 
         /**
@@ -126,42 +126,58 @@ if ( !class_exists( 'WP_MCM_Settings' ) ) {
          * @since 2.0.0
          * @return html contents
          */
-        public function wp_mcm_render_section_escaped_output() {
-            $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
+        public function wp_mcm_render_section_escaped_output( $section = WP_MCM_SECTION_GEN ) {
+            $this->debugMP( 'msg', __FUNCTION__ . ' started for section: ' . $section );
             global $wp_mcm_admin;
             global $wp_mcm_render_settings;
             // Set some defaults
             $render_output = '';
-            $input_form_action_url = $wp_mcm_admin->wp_mcm_settings_section_url( WP_MCM_SECTION_SETTINGS );
+            $input_form_action_url = $wp_mcm_admin->wp_mcm_settings_section_url( $section );
             $input_hidden_template = '<input type="hidden" name="%s" value="%s"/>';
             // Input hidden items
             //
             $action_nonce = wp_create_nonce( WP_MCM_ACTION_NONCE );
             $input_hidden_items = array(
                 'option_page'         => WP_MCM_ADMIN_MENU_SLUG,
-                WP_MCM_SECTION_PARAM  => WP_MCM_SECTION_SETTINGS,
+                WP_MCM_SECTION_PARAM  => $section,
                 WP_MCM_ACTION_REQUEST => WP_MCM_ACTION_SETTINGS,
                 WP_MCM_ACTION_NONCE   => $action_nonce,
             );
             // Render top section header
             //
-            $render_output .= '<div id="wp_mcm_gen_settings" class="wrap wp-mcm-settings">';
+            $render_output .= '<div id="wp_mcm_' . esc_attr( $section ) . '_settings" class="wrap wp-mcm-settings">';
             $render_output .= '<form id="wp-mcm-settings-form" method="post" action="' . esc_url( $input_form_action_url ) . '" autocomplete="off" accept-charset="utf-8">';
             // Render input_hidden_items
             //
             foreach ( $input_hidden_items as $input_hidden_name => $input_hidden_value ) {
                 $render_output .= sprintf( $input_hidden_template, esc_attr( $input_hidden_name ), esc_attr( $input_hidden_value ) );
             }
-            // Render the settings sections
+            // Render the settings sections based on the requested section
             //
             $button_label = esc_html__( 'Save Settings', 'wp-media-category-management' );
-            $header_label = esc_html__( 'General Settings', 'wp-media-category-management' );
-            $render_output .= $wp_mcm_render_settings->render_settings_sections(
-                WP_MCM_SECTION_GEN,
-                $this->mcm_settings_params,
-                $header_label,
-                $button_label
-            );
+            switch ( $section ) {
+                // case WP_MCM_SECTION_FLM:
+                // // Title
+                // $render_output .= '<h3>';
+                // $render_output .= esc_html__('Folder Management', 'wp-media-category-management');
+                // $render_output .= '</h3>';
+                // $render_output .= '<p>';
+                // $render_output .= esc_html__('This page manages media folders - create, view, and rename folders for organizing your media library.', 'wp-media-category-management');
+                // $render_output .= '</p>';
+                // $header_label   = esc_html__( 'Folder Management', 'wp-media-category-management' );
+                // $render_output .= $wp_mcm_render_settings->render_settings_sections( WP_MCM_SECTION_FLM, $this->mcm_settings_params, $header_label, $button_label );
+                // break;
+                case WP_MCM_SECTION_GEN:
+                default:
+                    $header_label = esc_html__( 'General Settings', 'wp-media-category-management' );
+                    $render_output .= $wp_mcm_render_settings->render_settings_sections(
+                        WP_MCM_SECTION_GEN,
+                        $this->mcm_settings_params,
+                        $header_label,
+                        $button_label
+                    );
+                    break;
+            }
             // Close top section header and return output
             //
             $render_output .= '</form>';

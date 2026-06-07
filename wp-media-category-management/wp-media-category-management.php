@@ -6,13 +6,13 @@ Plugin Name: WP Media Category Management
 Description: A plugin to provide bulk category management functionality for media in WordPress sites.
 Author:      DeBAAT
 Author URI:  https://www.de-baat.nl/WP_MCM/
-Version:     2.5.0
+Version:     2.5.1
 Text Domain: wp-media-category-management
 Domain Path: /languages/
 License:     GPL v3
 
 
-Copyright (C) 2014 - 2025 DeBAAT wp-mcm@de-baat.nl
+Copyright (C) 2014 - 2026 DeBAAT wp-mcm@de-baat.nl
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -63,22 +63,14 @@ function wp_mcm_maybe_define_constant(  $name, $value  ) {
 
 // Define some constants for use by this add-on
 wp_mcm_maybe_define_constant( 'WP_MCM_FREEMIUS_ID', '10419' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_SHORT_SLUG', 'wp-media-category-management' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_PREMIUM_SLUG', 'wp-media-category-management-premium' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_CLASS_PREFIX', 'WP_MCM_' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_DMPPANEL', 'wp-mcm' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_ADMIN_MENU_SLUG', 'wp-mcm' );
 wp_mcm_maybe_define_constant( 'WP_MCM_ADMIN_MENU_SLUG_FRE', 'wp-mcm-pricing' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_FILE', __FILE__ );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_REL_DIR', plugin_dir_path( WP_MCM_FILE ) );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_BASENAME', plugin_basename( __FILE__ ) );
 wp_mcm_maybe_define_constant( 'WP_MCM_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 wp_mcm_maybe_define_constant( 'WP_MCM_PLUGIN_URL', plugins_url( '', __FILE__ ) );
@@ -93,18 +85,24 @@ wp_mcm_maybe_define_constant( 'WP_MCM_CAP_MANAGE_UPLOAD_FILES', 'upload_files' )
 wp_mcm_maybe_define_constant( 'WP_MCM_OPTION_NAME', 'wp-media-category-management-options' );
 wp_mcm_maybe_define_constant( 'WP_MCM_NOTICE_OPTION', 'WP_MCM_notices' );
 wp_mcm_maybe_define_constant( 'WP_MCM_LINK', 'https://www.de-baat.nl/WP_MCM' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_JS_DEV_VERSION', '000' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_POST_TAXONOMY', 'category' );
 wp_mcm_maybe_define_constant( 'WP_MCM_TAGS_TAXONOMY', 'post_tag' );
 wp_mcm_maybe_define_constant( 'WP_MCM_MEDIA_TAXONOMY', 'category_media' );
 wp_mcm_maybe_define_constant( 'WP_MCM_MEDIA_TAXONOMY_PREFIX', 'mcm_taxonomy_' );
 wp_mcm_maybe_define_constant( 'WP_MCM_MEDIA_TAXONOMY_QUERY', 'mcm_taxonomy_query' );
+wp_mcm_maybe_define_constant( 'WP_MCM_WP_UPLOAD_URL', wp_upload_dir()['baseurl'] );
+wp_mcm_maybe_define_constant( 'WP_MCM_WP_UPLOAD_DIR', wp_upload_dir()['basedir'] );
+wp_mcm_maybe_define_constant( 'WP_MCM_FOLDERS_DEFAULT_NAME', 'MCM_Folders' );
+wp_mcm_maybe_define_constant( 'WP_MCM_FOLDERS_UPLOAD_URL', wp_upload_dir()['baseurl'] . '/' . WP_MCM_FOLDERS_DEFAULT_NAME );
+wp_mcm_maybe_define_constant( 'WP_MCM_FOLDERS_UPLOAD_DIR', wp_upload_dir()['basedir'] . '/' . WP_MCM_FOLDERS_DEFAULT_NAME );
+wp_mcm_maybe_define_constant( 'WP_MCM_DEFAULT_MESSAGE_TIMEOUT', 10 );
+wp_mcm_maybe_define_constant( 'WP_MCM_FOLDERS_COLUMN', 'wp_mcm_media_folders_column' );
 wp_mcm_maybe_define_constant( 'WP_MCM_OPTIONS_NAME', 'wp-media-category-management-options' );
 wp_mcm_maybe_define_constant( 'WP_MCM_OPTION_NONE', 'uncategorized' );
 wp_mcm_maybe_define_constant( 'WP_MCM_OPTION_ALL_CAT', 'all_categories' );
 wp_mcm_maybe_define_constant( 'WP_MCM_OPTION_NO_CAT', 'no_category' );
+wp_mcm_maybe_define_constant( 'WP_MCM_OPTION_NO_FOLDER', '__no_folder__' );
 wp_mcm_maybe_define_constant( 'WP_MCM_NOTICE_SUCCESS', 'success' );
 wp_mcm_maybe_define_constant( 'WP_MCM_NOTICE_INFO', 'info' );
 wp_mcm_maybe_define_constant( 'WP_MCM_NOTICE_WARNING', 'warning' );
@@ -114,25 +112,19 @@ wp_mcm_maybe_define_constant( 'WP_MCM_NOTICE_DELAY_PERIOD', 7 * 86400 );
 wp_mcm_maybe_define_constant( 'WP_MCM_USER_SLUG', 'users' );
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_PARAM', 'wp_mcm_section' );
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_ALL', 'wp_mcm_section_all' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_GEN', 'wp_mcm_section_general' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_SCO', 'wp_mcm_section_shortcode' );
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_SETTINGS', 'wp_mcm_section_settings' );
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_IEX', 'wp_mcm_section_imexport' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_PRE', 'wp_mcm_section_premium' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_UMC', 'wp_mcm_section_usermanaged' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_EXP', 'wp_mcm_section_export' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_IMP', 'wp_mcm_section_import' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_TOG', 'wp_mcm_section_toggle_assign' );
-//
+wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_FLS', 'wp_mcm_section_folder_settings' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_FLM', 'wp_mcm_section_folder_management' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_FLC', 'wp_mcm_section_folder_create' );
 wp_mcm_maybe_define_constant( 'WP_MCM_SECTION_IMEX', 'wp_mcm_section_imex' );
-//
 wp_mcm_maybe_define_constant( 'WP_MCM_DEFAULT_EXPORT_FILENAME_PREFIX', 'wp-mcm-export' );
 wp_mcm_maybe_define_constant( 'WP_MCM_DEFAULT_EXPORT_FILENAME_EXT', '.xml' );
 // Define some constants for use by this plugin
@@ -151,6 +143,7 @@ wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_HIDDEN', 'wp_mcm_hidden' );
 wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_DATETIME', 'wp_mcm_datetime' );
 wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_FILE', 'wp_mcm_file' );
 wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_FILENAME', 'wp_mcm_filename' );
+wp_mcm_maybe_define_constant( 'WP_MCM_SETTINGS_TYPE_FOLDER_MANAGER', 'wp_mcm_folder_manager' );
 wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_SAVE', 'wp_mcm_action_save' );
 wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_UPDATE', 'wp_mcm_action_update' );
 wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_REQUEST', 'wp_mcm_action_request' );
@@ -158,6 +151,11 @@ wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_SETTINGS', 'wp_mcm_action_settings'
 wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_ROW_TOGGLE', 'wp_mcm_action_row_toggle' );
 wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_BULK_TOGGLE', 'wp_mcm_action_bulk_toggle' );
 wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_NONCE', 'wp_mcm_action_nonce' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_FOLDER_CREATE', 'wp_mcm_folder_create' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_FOLDER_RENAME', 'wp_mcm_folder_rename' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_FOLDER_DELETE', 'wp_mcm_folder_delete' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_FOLDER_MOVE', 'wp_mcm_folder_move' );
+wp_mcm_maybe_define_constant( 'WP_MCM_ACTION_MOVE_TO_FOLDER', 'wp_mcm_move_to_folder' );
 wp_mcm_maybe_define_constant( 'WP_MCM_LINK_DESTINATION_NONE', 'none' );
 wp_mcm_maybe_define_constant( 'WP_MCM_LINK_DESTINATION_FILE', 'file' );
 wp_mcm_maybe_define_constant( 'WP_MCM_LINK_DESTINATION_CUSTOM', 'custom' );

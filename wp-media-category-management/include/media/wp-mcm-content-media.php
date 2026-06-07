@@ -8,6 +8,8 @@
  * @since 2.1.0
  */
 
+if (!defined('ABSPATH')) exit;
+
 global $wp_mcm_taxonomy;
 
 get_header();

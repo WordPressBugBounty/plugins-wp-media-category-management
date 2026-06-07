@@ -116,13 +116,13 @@ if ( !class_exists( 'WP_MCM_Taxonomy' ) ) {
                 // returns an object
                 if ( $mcm_base_taxonomy ) {
                     $prefix = sprintf( 
-                        /* translators: %s: Taxonomy singular name. */
-                        _x( '%s:', 'taxonomy term archive title prefix' ),
+                        // translators: %s: Taxonomy singular name.
+                        _x( '%s:', 'taxonomy term archive title prefix', 'wp-media-category-management' ),
                         $mcm_base_taxonomy->labels->singular_name
                      );
                     $mcm_archive_title = sprintf( 
-                        /* translators: 1: Title prefix. 2: Title. */
-                        _x( '%1$s %2$s', 'archive title' ),
+                        // translators: 1: Title prefix. 2: Title.
+                        _x( '%1$s %2$s', 'archive title', 'wp-media-category-management' ),
                         $prefix,
                         '<span>' . $mcm_archive_title . '</span>'
                      );
