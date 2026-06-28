@@ -65,6 +65,18 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
                 10,
                 2
             );
+            add_action(
+                'add_attachment',
+                array($this, 'mcm_save_attachment_taxonomies_from_request'),
+                10,
+                1
+            );
+            add_action(
+                'edit_attachment',
+                array($this, 'mcm_save_attachment_taxonomies_from_request'),
+                10,
+                1
+            );
             // add_action('wp_ajax_save-attachment-compat',            array($this, 'mcm_ajax_save_attachment_compat'), 0);
             add_filter( 'request', array($this, 'mcm_request_admin') );
             add_filter(
@@ -255,60 +267,107 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
         }
 
         /**
-         * Save tag field from attachment edit menu
+         * Save attachment taxonomy terms from the media modal / details screen.
          *
          * @since 2.0.0
-         * @return void
+         * @param array $post Attachment data.
+         * @param array $attachment_data Posted attachment data.
+         * @return array
          */
         function mcm_taxonomy_attachment_fields_to_save( $post, $attachment_data ) {
-            $tags_raw = ( isset( $attachment_data['tags'] ) ? wp_unslash( $attachment_data['tags'] ) : '' );
-            $tags = esc_attr( $tags_raw );
-            $tag_arr = array_filter( array_map( 'trim', explode( ',', $tags ) ) );
-            $tag_arr_sanitized = array();
-            foreach ( $tag_arr as $t ) {
-                $tag_arr_sanitized[] = sanitize_text_field( $t );
+            $post_id = ( isset( $post['ID'] ) ? absint( $post['ID'] ) : 0 );
+            if ( $post_id <= 0 ) {
+                return $post;
             }
-            wp_set_object_terms( $post['ID'], $tag_arr_sanitized, 'post_tag' );
-            $this->debugMP( 'pr', __FUNCTION__ . ' processed post ' . $post['ID'] . ', tag_arr_sanitized ', $tag_arr_sanitized );
+            $this->mcm_save_attachment_taxonomies_from_request( $post_id, $attachment_data );
             return $post;
         }
 
         /**
-         * When saving a attachment change the taxonomies.
+         * Persist attachment taxonomy terms from the current request.
          *
-         * @param WP_Post $post
-         * @param array $attachment_data
-         * @return WP_Post
+         * This covers both the classic attachment edit screen and the modern media modal
+         * upload flow where the selected terms are posted as tax_input.
          *
-         *  @since    2.6.0
+         * @param int   $post_id Attachment ID.
+         * @param array $attachment_data Optional attachment data from the save filter.
+         * @return void
          */
-        public function mcm_taxonomy_attachment_fields_to_save_old( $post, $attachment_data ) {
-            $post_id = $post['ID'];
+        public function mcm_save_attachment_taxonomies_from_request( $post_id, $attachment_data = array() ) {
+            $post_id = absint( $post_id );
+            if ( $post_id <= 0 ) {
+                return;
+            }
+            $post = get_post( $post_id );
+            if ( !$post || 'attachment' !== $post->post_type ) {
+                return;
+            }
+            if ( !current_user_can( 'edit_post', $post_id ) ) {
+                return;
+            }
+            $tax_input = array();
+            if ( isset( $_REQUEST['tax_input'] ) && is_array( $_REQUEST['tax_input'] ) ) {
+                $tax_input = wp_unslash( $_REQUEST['tax_input'] );
+            }
             foreach ( get_attachment_taxonomies( $post ) as $taxonomy ) {
-                if ( isset( $attachment_data[$taxonomy] ) ) {
-                    wp_set_object_terms(
-                        $post_id,
-                        array_map( 'trim', preg_split( '/,+/', $attachment_data[$taxonomy] ) ),
-                        $taxonomy,
-                        false
-                    );
-                } elseif ( isset( $_REQUEST['tax_input'] ) && isset( $_REQUEST['tax_input'][$taxonomy] ) ) {
-                    wp_set_object_terms(
-                        $post_id,
-                        $_REQUEST['tax_input'][$taxonomy],
-                        $taxonomy,
-                        false
-                    );
+                $terms = array();
+                if ( isset( $tax_input[$taxonomy] ) ) {
+                    $terms = $tax_input[$taxonomy];
+                } elseif ( isset( $attachment_data[$taxonomy] ) ) {
+                    $terms = $attachment_data[$taxonomy];
+                } elseif ( 'post_tag' === $taxonomy && isset( $attachment_data['tags'] ) ) {
+                    $terms = $attachment_data['tags'];
+                }
+                if ( '' === $terms || null === $terms ) {
+                    $terms = array();
+                } elseif ( is_string( $terms ) ) {
+                    $terms = array_filter( array_map( 'trim', preg_split( '/\\s*,\\s*/', $terms ) ), function ( $term ) {
+                        return $term !== '';
+                    } );
+                } elseif ( is_array( $terms ) ) {
+                    $normalized_terms = array();
+                    foreach ( $terms as $term_key => $term_value ) {
+                        if ( is_string( $term_value ) ) {
+                            $term_value = trim( $term_value );
+                            if ( ctype_digit( $term_value ) ) {
+                                $term_value = intval( $term_value );
+                            }
+                        }
+                        if ( '' === $term_value && '' !== $term_key ) {
+                            $normalized_terms[] = $term_key;
+                            continue;
+                        }
+                        if ( 'on' === $term_value || '1' === $term_value || 1 === $term_value ) {
+                            if ( is_string( $term_key ) && ctype_digit( $term_key ) ) {
+                                $normalized_terms[] = intval( $term_key );
+                            } else {
+                                $normalized_terms[] = $term_key;
+                            }
+                            continue;
+                        }
+                        $normalized_terms[] = $term_value;
+                    }
+                    $terms = array_filter( array_values( $normalized_terms ), function ( $term ) {
+                        return $term !== '';
+                    } );
                 } else {
-                    wp_set_object_terms(
-                        $post_id,
-                        '',
-                        $taxonomy,
-                        false
-                    );
+                    $terms = array($terms);
+                }
+                $this->debugMP( 'pr', __FUNCTION__ . ' taxonomy[' . $taxonomy . ']: terms = ', $terms );
+                if ( 'post_tag' === $taxonomy && is_array( $terms ) ) {
+                    $terms = array_map( 'sanitize_text_field', $terms );
+                }
+                $this->debugMP( 'pr', __FUNCTION__ . ' after sanitize_text_field: taxonomy[' . $taxonomy . ']: terms = ', $terms );
+                $result = wp_set_object_terms(
+                    $post_id,
+                    $terms,
+                    $taxonomy,
+                    false
+                );
+                if ( is_wp_error( $result ) ) {
+                    $this->debugMP( 'pr', __FUNCTION__ . ' failed for post ' . $post_id . ' taxonomy ' . $taxonomy . ':', $result );
                 }
             }
-            return $post;
         }
 
         /** 
@@ -346,30 +405,7 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
                 unset($post['errors']);
             }
             wp_update_post( $post );
-            foreach ( get_attachment_taxonomies( $post ) as $taxonomy ) {
-                if ( isset( $attachment_data[$taxonomy] ) ) {
-                    wp_set_object_terms(
-                        $id,
-                        array_map( 'trim', preg_split( '/,+/', $attachment_data[$taxonomy] ) ),
-                        $taxonomy,
-                        false
-                    );
-                } elseif ( isset( $_REQUEST['tax_input'] ) && isset( $_REQUEST['tax_input'][$taxonomy] ) ) {
-                    wp_set_object_terms(
-                        $id,
-                        $_REQUEST['tax_input'][$taxonomy],
-                        $taxonomy,
-                        false
-                    );
-                } else {
-                    wp_set_object_terms(
-                        $id,
-                        '',
-                        $taxonomy,
-                        false
-                    );
-                }
-            }
+            $this->mcm_save_attachment_taxonomies_from_request( $id, $attachment_data );
             if ( !($attachment = wp_prepare_attachment_for_js( $id )) ) {
                 wp_send_json_error();
             }

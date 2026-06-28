@@ -37,8 +37,8 @@ if ( !class_exists( 'WP_MCM_Media_Admin' ) ) {
             // $this->debugMP('msg', __FUNCTION__ . ' started.');
             // Some filters and action to process categories
             add_action( 'restrict_manage_posts', array($this, 'mcm_restrict_manage_posts') );
-            add_action( 'add_attachment', array($this, 'mcm_set_attachment_category') );
-            add_action( 'edit_attachment', array($this, 'mcm_set_attachment_category') );
+            add_action( 'add_attachment', array($this, 'mcm_set_attachment_category'), 20 );
+            add_action( 'edit_attachment', array($this, 'mcm_set_attachment_category'), 20 );
             add_filter( 'ajax_query_attachments_args', array($this, 'mcm_ajax_query_attachments_args') );
             add_action( 'wp_enqueue_media', array($this, 'mcm_admin_wp_enqueue_media') );
         }
