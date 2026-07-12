@@ -48,7 +48,7 @@ window.wp = window.wp || {};
 			curAttachmentsBrowser.prototype.createToolbar.call(this);
 
 			var that = this,
-			i = 1;
+				i = 1;
 
 			$.each(mcm_taxonomies, function(taxonomy, values) 
 			{

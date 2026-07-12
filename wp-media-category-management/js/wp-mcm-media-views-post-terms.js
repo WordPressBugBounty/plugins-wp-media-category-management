@@ -85,7 +85,7 @@ window.wp = window.wp || {};
 	wp.media.view.AttachmentsBrowser = wp.media.view.AttachmentsBrowser.extend({
 		createToolbar: function() {
 			var that = this;
-			i = 1;
+			var i = 1;
 
 			// Make sure to load the original toolbar
 			AttachmentsBrowser.prototype.createToolbar.call(this);
