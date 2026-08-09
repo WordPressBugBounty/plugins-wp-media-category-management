@@ -3,8 +3,8 @@ Contributors: DeBAAT, freemius
 Donate link: https://www.de-baat.nl/WP_MCM
 Tags: media category, bulk toggle, toggle category, media filter, user media management
 Requires at least: 6.9
-Tested up to: 7.0.1
-Stable tag: 2.5.3
+Tested up to: 7.0.3
+Stable tag: 2.5.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -104,6 +104,13 @@ Use the `[wp_mcm]` shortcode. Various shortcode uses are explained in the **WP M
 15. The admin page showing the options for Import - Export using this plugin.
 
 == Changelog ==
+
+= 2.5.4 =
+* Tested for WP 7.0.3
+* Fixed issue Function _load_textdomain_just_in_time was called incorrectly
+* Fixed issue missing WPMCM Blocks
+* Fixed issue WPMCM-Gallery block resetting category selection when taxonomy changed
+* Fixed issue typo in variable usage
 
 = 2.5.3 =
 * Tested for WP 7.0.1

@@ -29,6 +29,13 @@ if ( !class_exists( 'WP_MCM_Taxonomy' ) ) {
         public $mcm_taxonomy_category_to_find = false;
 
         /**
+         * Track whether the media taxonomy has already been registered.
+         *
+         * @var bool
+         */
+        private $taxonomy_registered = false;
+
+        /**
          * Class constructor
          */
         function __construct() {
@@ -55,7 +62,8 @@ if ( !class_exists( 'WP_MCM_Taxonomy' ) ) {
         public function initialize() {
             $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
             $this->mcm_taxonomy_category_to_find = false;
-            // $this->mcm_register_media_taxonomy();
+            // Register the media taxonomy during initialization so it is available in the current request.
+            $this->mcm_register_media_taxonomy();
         }
 
         /**
@@ -331,6 +339,9 @@ if ( !class_exists( 'WP_MCM_Taxonomy' ) ) {
          * @return void
          */
         function mcm_register_media_taxonomy() {
+            if ( $this->taxonomy_registered ) {
+                return;
+            }
             global $wp_mcm_options;
             // Get media taxonomy to use
             $media_taxonomy_to_use = $this->mcm_get_media_taxonomy();
@@ -421,6 +432,7 @@ if ( !class_exists( 'WP_MCM_Taxonomy' ) ) {
             // add_rewrite_rule( $wp_mcm_category_base .'/([^/]+)/?$', 'index.php?' . WP_MCM_MEDIA_TAXONOMY_QUERY . '=' . $wp_mcm_category_base . '&' . $media_taxonomy_to_use . '=$matches[1]', 'top' );
             // flush_rewrite_rules();    // TODO
             // $this->debugMP('msg',__FUNCTION__ . ' flush_rewrite_rules for wp_mcm_category_base = ' . $wp_mcm_category_base . ', media_taxonomy_to_use = ' . $media_taxonomy_to_use );
+            $this->taxonomy_registered = true;
         }
 
         /**

@@ -17,10 +17,13 @@ if ( !defined( 'ABSPATH' ) ) {
  */
 if ( !class_exists( 'WP_MCM_Plugin' ) ) {
     class WP_MCM_Plugin {
+        /** @var string */
         public $wp_mcm_date_format;
 
+        /** @var string */
         public $wp_mcm_time_format;
 
+        /** @var string */
         public $wp_mcm_datetime_format;
 
         /**
@@ -129,7 +132,7 @@ if ( !class_exists( 'WP_MCM_Plugin' ) ) {
         /**
          * Create a timestamp for the current time
          *
-         * @return timestamp
+         * @return string
          */
         function create_timestamp_now( $timezone_format = '' ) {
             if ( $timezone_format === '' ) {
@@ -173,8 +176,8 @@ if ( !class_exists( 'WP_MCM_Plugin' ) ) {
          * Check whether the current_user has WP_MCM_CAP_MANAGE_MCM_ADMIN capabilities
          *
          * @since 2.0.0
-         * @param boolean $noAdmin - whether to validate for non-admins only, default = false
-         * @return boolean
+         * @param bool $noAdmin - whether to validate for non-admins only, default = false
+         * @return bool
          */
         function mcm_is_admin( $noAdmin = false ) {
             $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
@@ -198,8 +201,8 @@ if ( !class_exists( 'WP_MCM_Plugin' ) ) {
          * Admin is always allowed
          *
          * @since 2.0.0
-         * @param string $userLogin - the login name of the user to check
-         * @return boolean
+         * @param bool $noAdmin - whether to validate for non-admins only, default = false
+         * @return bool
          */
         function mcm_is_user( $noAdmin = false ) {
             $this->debugMP( 'msg', __FUNCTION__ . ' started.' );
