@@ -6,7 +6,7 @@ Plugin Name: WP Media Category Management
 Description: A plugin to provide bulk category management functionality for media in WordPress sites.
 Author:      DeBAAT
 Author URI:  https://www.de-baat.nl/WP_MCM/
-Version:     2.5.4
+Version:     2.5.5
 Text Domain: wp-media-category-management
 Domain Path: /languages/
 License:     GPL v3
@@ -61,6 +61,36 @@ function wp_mcm_maybe_define_constant(  $name, $value  ) {
     }
 }
 
+/**
+ * Enqueue a plugin script using filemtime-based versioning for cache busting during development.
+ *
+ * @param string       $handle      Script handle.
+ * @param string       $src_relative Relative path from plugin root (e.g. '/js/app.js').
+ * @param array|string $deps        Dependencies.
+ * @param bool         $in_footer   Whether to enqueue in footer.
+ */
+function wp_mcm_enqueue_script_filemtime(
+    $handle,
+    $src_relative,
+    $deps = array(),
+    $in_footer = false
+) {
+    $relative = ltrim( $src_relative, '/' );
+    $full_path = WP_MCM_PLUGIN_DIR . $relative;
+    $src_url = WP_MCM_PLUGIN_URL . '/' . $relative;
+    $ver = WP_MCM_VERSION_NUM;
+    if ( file_exists( $full_path ) ) {
+        $ver = WP_MCM_VERSION_NUM . '.' . filemtime( $full_path );
+    }
+    wp_enqueue_script(
+        $handle,
+        $src_url,
+        $deps,
+        $ver,
+        $in_footer
+    );
+}
+
 // Define some constants for use by this add-on
 wp_mcm_maybe_define_constant( 'WP_MCM_FREEMIUS_ID', '10419' );
 wp_mcm_maybe_define_constant( 'WP_MCM_SHORT_SLUG', 'wp-media-category-management' );
@@ -91,6 +121,8 @@ wp_mcm_maybe_define_constant( 'WP_MCM_TAGS_TAXONOMY', 'post_tag' );
 wp_mcm_maybe_define_constant( 'WP_MCM_MEDIA_TAXONOMY', 'category_media' );
 wp_mcm_maybe_define_constant( 'WP_MCM_MEDIA_TAXONOMY_PREFIX', 'mcm_taxonomy_' );
 wp_mcm_maybe_define_constant( 'WP_MCM_MEDIA_TAXONOMY_QUERY', 'mcm_taxonomy_query' );
+wp_mcm_maybe_define_constant( 'WP_MCM_TERMS_EDIT', 'mcm_terms_edit' );
+wp_mcm_maybe_define_constant( 'WP_MCM_TERMS_PRESENT', 'mcm_terms_present' );
 wp_mcm_maybe_define_constant( 'WP_MCM_WP_UPLOAD_URL', wp_upload_dir()['baseurl'] );
 wp_mcm_maybe_define_constant( 'WP_MCM_WP_UPLOAD_DIR', wp_upload_dir()['basedir'] );
 wp_mcm_maybe_define_constant( 'WP_MCM_FOLDERS_DEFAULT_NAME', 'MCM_Folders' );

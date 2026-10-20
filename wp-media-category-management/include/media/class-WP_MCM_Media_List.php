@@ -113,7 +113,7 @@ if ( !class_exists( 'WP_MCM_Media_List' ) ) {
          *  @since    2.0.0
          */
         function mcm_wp_ajax_action_row_toggle() {
-            // $this->debugMP('pr',__FUNCTION__ . ' _REQUEST = ', $_REQUEST );
+            $this->debugMP( 'pr', __FUNCTION__ . ' _REQUEST = ', $_REQUEST );
             // _wpnonce check for an extra layer of security, the function will exit if it fails
             if ( !isset( $_REQUEST['_wpnonce'] ) ) {
                 wp_send_json_error();
@@ -644,6 +644,7 @@ if ( !class_exists( 'WP_MCM_Media_List' ) ) {
             } else {
                 $media_category = sanitize_title_with_dashes( wp_unslash( $media_category ) );
             }
+            $this->debugMP( 'msg', __FUNCTION__ . ' media_id = ' . $media_id . ', media_category = ' . $media_category . ', media_taxonomy = ' . $media_taxonomy . '.' );
             // Validate taxonomy exists
             if ( !taxonomy_exists( $media_taxonomy ) ) {
                 return false;
@@ -658,12 +659,20 @@ if ( !class_exists( 'WP_MCM_Media_List' ) ) {
                 $mcm_toggle_result = wp_remove_object_terms( $media_id, $media_category, $media_taxonomy );
             } else {
                 // Not set so add the $bulk_media_category taxonomy to this media post
+                $this->debugMP( 'pr', __FUNCTION__ . ' wp_set_object_terms TRUE id=' . $media_id . ', taxonomy=' . $media_taxonomy . ': term = ', $media_category );
                 $mcm_toggle_result = wp_set_object_terms(
                     $media_id,
                     $media_category,
                     $media_taxonomy,
                     true
                 );
+            }
+            // Ensure caches are cleared so subsequent reads reflect DB state
+            if ( function_exists( 'clean_object_term_cache' ) ) {
+                clean_object_term_cache( $media_id, $media_taxonomy );
+            }
+            if ( function_exists( 'clean_post_cache' ) ) {
+                clean_post_cache( $media_id );
             }
             return $mcm_toggle_result;
         }

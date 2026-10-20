@@ -73,7 +73,7 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
             );
             add_action(
                 'edit_attachment',
-                array($this, 'mcm_save_attachment_taxonomies_from_request'),
+                array($this, 'mcm_save_grid_attachment_taxonomies'),
                 10,
                 1
             );
@@ -229,6 +229,12 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
                 if ( empty( $cur_taxonomy['args'] ) ) {
                     $cur_taxonomy['args'] = array();
                 }
+                // Always force a fresh read for the current attachment before rendering the
+                // modal checklist. The grid AJAX toggle updates the DB but otherwise leaves
+                // the attachment object-term cache stale, which is what causes the modal to
+                // reopen with outdated selected categories.
+                clean_object_term_cache( $post->ID, $taxonomy );
+                clean_post_cache( $post->ID );
                 $terms = get_object_term_cache( $post->ID, $taxonomy );
                 if ( false === $terms ) {
                     $terms = wp_get_object_terms( $post->ID, $taxonomy, $cur_taxonomy['args'] );
@@ -246,6 +252,7 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
                 $cur_taxonomy['show_in_edit'] = false;
                 if ( $cur_taxonomy['hierarchical'] || $taxonomy == WP_MCM_TAGS_TAXONOMY ) {
                     ob_start();
+                    $wp_mcm_walker_category_mediagrid_checklist->attachment_id = absint( $post->ID );
                     wp_terms_checklist( $post->ID, array(
                         'taxonomy'      => $taxonomy,
                         'checked_ontop' => false,
@@ -256,13 +263,14 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
                     } else {
                         $html = '<ul class="term-list"><li>No ' . $cur_taxonomy['label'] . '</li></ul>';
                     }
+                    $html .= '<input type="hidden" name="attachments[' . absint( $post->ID ) . '][' . WP_MCM_TERMS_PRESENT . '][' . esc_attr( $taxonomy ) . ']" value="1" />';
                     ob_end_clean();
                     $cur_taxonomy['input'] = 'html';
                     $cur_taxonomy['html'] = $html;
                 }
                 $form_fields[$taxonomy] = $cur_taxonomy;
             }
-            // $this->debugMP('pr',__FUNCTION__ . ' returns form_fields = ', $form_fields);
+            // $this->debugMP('pr', __FUNCTION__ . '  for post->ID [' . $post->ID . '] returns form_fields = ', $form_fields);
             return $form_fields;
         }
 
@@ -275,12 +283,47 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
          * @return array
          */
         function mcm_taxonomy_attachment_fields_to_save( $post, $attachment_data ) {
+            if ( !empty( $attachment_data[WP_MCM_TERMS_PRESENT] ) ) {
+                return $post;
+            }
             $post_id = ( isset( $post['ID'] ) ? absint( $post['ID'] ) : 0 );
             if ( $post_id <= 0 ) {
                 return $post;
             }
+            $this->debugMP( 'pr', __FUNCTION__ . ' post_id=' . $post_id . ': attachment_data = ', $attachment_data );
             $this->mcm_save_attachment_taxonomies_from_request( $post_id, $attachment_data );
             return $post;
+        }
+
+        /**
+         * Save taxonomy selections submitted by the media grid attachment form.
+         *
+         * @param int $attachment_id Attachment ID.
+         * @return void
+         */
+        function mcm_save_grid_attachment_taxonomies( $attachment_id ) {
+            $attachment_id = absint( $attachment_id );
+            $attachment_data = ( isset( $_REQUEST['attachments'][$attachment_id] ) ? wp_unslash( $_REQUEST['attachments'][$attachment_id] ) : array() );
+            $submitted = ( isset( $attachment_data[WP_MCM_TERMS_PRESENT] ) ? $attachment_data[WP_MCM_TERMS_PRESENT] : array() );
+            $selected = ( isset( $attachment_data[WP_MCM_TERMS_EDIT] ) ? $attachment_data[WP_MCM_TERMS_EDIT] : array() );
+            if ( !$attachment_id || !is_array( $submitted ) || !current_user_can( 'edit_post', $attachment_id ) ) {
+                return;
+            }
+            foreach ( $submitted as $taxonomy => $marker ) {
+                $taxonomy = sanitize_key( $taxonomy );
+                $tax_object = get_taxonomy( $taxonomy );
+                if ( '1' !== (string) $marker || !is_object_in_taxonomy( 'attachment', $taxonomy ) || !$tax_object || !current_user_can( $tax_object->cap->assign_terms ) ) {
+                    continue;
+                }
+                $term_ids = ( isset( $selected[$taxonomy] ) ? array_map( 'absint', (array) $selected[$taxonomy] ) : array() );
+                $term_ids = array_values( array_unique( array_filter( $term_ids ) ) );
+                wp_set_object_terms(
+                    $attachment_id,
+                    $term_ids,
+                    $taxonomy,
+                    false
+                );
+            }
         }
 
         /**
@@ -309,14 +352,21 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
             if ( isset( $_REQUEST['tax_input'] ) && is_array( $_REQUEST['tax_input'] ) ) {
                 $tax_input = wp_unslash( $_REQUEST['tax_input'] );
             }
+            $this->debugMP( 'pr', __FUNCTION__ . ' post_id=' . $post_id . ': attachment_data = ', $attachment_data );
             foreach ( get_attachment_taxonomies( $post ) as $taxonomy ) {
-                $terms = array();
+                $has_terms = false;
                 if ( isset( $tax_input[$taxonomy] ) ) {
                     $terms = $tax_input[$taxonomy];
+                    $has_terms = true;
                 } elseif ( isset( $attachment_data[$taxonomy] ) ) {
                     $terms = $attachment_data[$taxonomy];
+                    $has_terms = true;
                 } elseif ( 'post_tag' === $taxonomy && isset( $attachment_data['tags'] ) ) {
                     $terms = $attachment_data['tags'];
+                    $has_terms = true;
+                }
+                if ( !$has_terms ) {
+                    continue;
                 }
                 if ( '' === $terms || null === $terms ) {
                     $terms = array();
@@ -338,11 +388,7 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
                             continue;
                         }
                         if ( 'on' === $term_value || '1' === $term_value || 1 === $term_value ) {
-                            if ( is_string( $term_key ) && ctype_digit( $term_key ) ) {
-                                $normalized_terms[] = intval( $term_key );
-                            } else {
-                                $normalized_terms[] = $term_key;
-                            }
+                            $normalized_terms[] = ( is_string( $term_key ) && ctype_digit( $term_key ) ? intval( $term_key ) : $term_key );
                             continue;
                         }
                         $normalized_terms[] = $term_value;
@@ -353,11 +399,9 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
                 } else {
                     $terms = array($terms);
                 }
-                $this->debugMP( 'pr', __FUNCTION__ . ' taxonomy[' . $taxonomy . ']: terms = ', $terms );
                 if ( 'post_tag' === $taxonomy && is_array( $terms ) ) {
                     $terms = array_map( 'sanitize_text_field', $terms );
                 }
-                $this->debugMP( 'pr', __FUNCTION__ . ' after sanitize_text_field: taxonomy[' . $taxonomy . ']: terms = ', $terms );
                 $result = wp_set_object_terms(
                     $post_id,
                     $terms,
@@ -405,6 +449,7 @@ if ( !class_exists( 'WP_MCM_Taxonomy_Admin' ) ) {
                 unset($post['errors']);
             }
             wp_update_post( $post );
+            $this->debugMP( 'pr', __FUNCTION__ . ' id=' . $id . ': attachment_data = ', $attachment_data );
             $this->mcm_save_attachment_taxonomies_from_request( $id, $attachment_data );
             if ( !($attachment = wp_prepare_attachment_for_js( $id )) ) {
                 wp_send_json_error();

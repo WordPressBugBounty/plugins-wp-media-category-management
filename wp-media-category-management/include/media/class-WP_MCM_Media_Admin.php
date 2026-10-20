@@ -37,8 +37,8 @@ if ( !class_exists( 'WP_MCM_Media_Admin' ) ) {
             // $this->debugMP('msg', __FUNCTION__ . ' started.');
             // Some filters and action to process categories
             add_action( 'restrict_manage_posts', array($this, 'mcm_restrict_manage_posts') );
-            add_action( 'add_attachment', array($this, 'mcm_set_attachment_category'), 20 );
-            add_action( 'edit_attachment', array($this, 'mcm_set_attachment_category'), 20 );
+            add_action( 'add_attachment', array($this, 'mcm_set_attachment_category_add_attachment'), 20 );
+            add_action( 'edit_attachment', array($this, 'mcm_set_attachment_category_edit_attachment'), 20 );
             add_filter( 'ajax_query_attachments_args', array($this, 'mcm_ajax_query_attachments_args') );
             add_action( 'wp_enqueue_media', array($this, 'mcm_admin_wp_enqueue_media') );
         }
@@ -83,17 +83,11 @@ if ( !class_exists( 'WP_MCM_Media_Admin' ) ) {
             $mcm_terms_label = $this->mcm_get_media_category_label( $media_taxonomy );
             $mcm_terms_label_all = esc_html__( 'Show all', 'wp-media-category-management' ) . ' ' . $mcm_terms_label;
             $mcm_terms_label_none = esc_html__( 'No', 'wp-media-category-management' ) . ' ' . $mcm_terms_label;
-            // create my own version codes for taxonomies
-            $mcm_media_views_script = WP_MCM_PLUGIN_DIR . '/js/wp-mcm-media-views-post-terms.js';
-            $mcm_media_views_version = WP_MCM_VERSION_NUM . WP_MCM_JS_DEV_VERSION;
-            if ( file_exists( $mcm_media_views_script ) ) {
-                $mcm_media_views_version = WP_MCM_VERSION_NUM . '.' . filemtime( $mcm_media_views_script );
-            }
-            wp_enqueue_script(
+            // Enqueue media views script with filemtime versioning for development refresh
+            wp_mcm_enqueue_script_filemtime(
                 'mcm-media-views',
-                WP_MCM_PLUGIN_URL . '/js/wp-mcm-media-views-post-terms.js',
+                '/js/wp-mcm-media-views-post-terms.js',
                 array('media-views'),
-                $mcm_media_views_version,
                 false
             );
             // create my own version codes for taxonomies
@@ -232,42 +226,112 @@ if ( !class_exists( 'WP_MCM_Media_Admin' ) ) {
          * Add default category to new attachments when enabled.
          *
          * @since 2.0.0
-         * @param int $post_ID
+         * @param int $attachment_id
          * @return void
          */
-        function mcm_set_attachment_category( $post_ID ) {
+        function mcm_set_attachment_category_add_attachment( $attachment_id ) {
             global $wp_mcm_options;
             global $wp_mcm_taxonomy;
+            // Check $media_taxonomy
+            $media_taxonomy = $wp_mcm_taxonomy->mcm_get_media_taxonomy();
+            $this->debugMP( 'msg', __FUNCTION__ . ' for attachment_id(' . $attachment_id . '), media_taxonomy(' . $media_taxonomy . ')!!!' );
             // Check whether this user can edit this post
-            if ( !current_user_can( 'edit_post', $post_ID ) ) {
+            if ( !current_user_can( 'edit_post', $attachment_id ) ) {
+                $this->debugMP( 'msg', __FUNCTION__ . ' RETURN !current_user_can for attachment_id(' . $attachment_id . '), media_taxonomy(' . $media_taxonomy . ')!!!' );
                 return;
             }
-            // Check whether to use the default or not
+            // Else (add_attachment) then Check whether to use the default or not
             if ( !$wp_mcm_options->is_true( 'wp_mcm_use_default_category' ) ) {
+                $this->debugMP( 'msg', __FUNCTION__ . ' RETURN !use_default_category for attachment_id(' . $attachment_id . '), media_taxonomy(' . $media_taxonomy . ')!!!' );
                 return;
             }
             // Check $media_taxonomy
             $media_taxonomy = $wp_mcm_taxonomy->mcm_get_media_taxonomy();
             // Only add default if attachment doesn't have WP_MCM_MEDIA_TAXONOMY categories
-            if ( !wp_get_object_terms( $post_ID, $media_taxonomy ) ) {
+            if ( !wp_get_object_terms( $attachment_id, $media_taxonomy ) ) {
                 // Get the default value
                 $default_category = $wp_mcm_options->get_value( 'wp_mcm_default_media_category' );
                 // Check for valid $default_category
                 if ( $default_category != WP_MCM_OPTION_NONE ) {
                     // Not set so add the $media_category taxonomy to this media post
-                    $add_result = wp_set_object_terms(
-                        $post_ID,
+                    $this->debugMP( 'pr', __FUNCTION__ . ' wp_set_object_terms TRUE id=' . $attachment_id . ', taxonomy=' . $media_taxonomy . ': term = ', $default_category );
+                    $wp_set_object_terms_result = wp_set_object_terms(
+                        $attachment_id,
                         $default_category,
                         $media_taxonomy,
                         true
                     );
                     // Check for error
-                    if ( is_wp_error( $add_result ) ) {
-                        $this->debugMP( 'pr', __FUNCTION__ . ' for post_ID(' . $post_ID . '), media_taxonomy(' . $media_taxonomy . '), default_category(' . $default_category . ') => is_wp_error:', $add_result );
+                    if ( is_wp_error( $wp_set_object_terms_result ) ) {
+                        $this->debugMP( 'pr', __FUNCTION__ . ' for attachment_id(' . $attachment_id . '), media_taxonomy(' . $media_taxonomy . '), default_category(' . $default_category . ') => is_wp_error:', $wp_set_object_terms_result );
                         return;
                     }
                 }
-                $this->debugMP( 'msg', __FUNCTION__ . ' for post_ID(' . $post_ID . '), media_taxonomy(' . $media_taxonomy . '), default_category(' . $default_category . ')!!!' );
+                $this->debugMP( 'msg', __FUNCTION__ . ' for attachment_id(' . $attachment_id . '), media_taxonomy(' . $media_taxonomy . '), default_category(' . $default_category . ')!!!' );
+            }
+        }
+
+        /**
+         * Add default category to new attachments when enabled.
+         *
+         * @since 2.0.0
+         * @param int $attachment_id
+         * @return void
+         */
+        function mcm_set_attachment_category_edit_attachment( $attachment_id ) {
+            global $wp_mcm_options;
+            global $wp_mcm_taxonomy;
+            // Check $media_taxonomy
+            $media_taxonomy = $wp_mcm_taxonomy->mcm_get_media_taxonomy();
+            $this->debugMP( 'msg', __FUNCTION__ . ' for attachment_id(' . $attachment_id . '), media_taxonomy(' . $media_taxonomy . ')!!!' );
+            $this->debugMP( 'pr', __FUNCTION__ . ' for attachment_id(' . $attachment_id . '), media_taxonomy(' . $media_taxonomy . '):', $_REQUEST );
+            // Check whether this user can edit this post
+            if ( !current_user_can( 'edit_post', $attachment_id ) ) {
+                $this->debugMP( 'msg', __FUNCTION__ . ' RETURN !current_user_can for attachment_id(' . $attachment_id . '), media_taxonomy(' . $media_taxonomy . ')!!!' );
+                return;
+            }
+            // Check $media_taxonomy
+            $media_taxonomy = $wp_mcm_taxonomy->mcm_get_media_taxonomy();
+            $attachment_data = ( isset( $_REQUEST['attachments'][$attachment_id] ) && is_array( $_REQUEST['attachments'][$attachment_id] ) ? wp_unslash( $_REQUEST['attachments'][$attachment_id] ) : array() );
+            $raw_ids = ( isset( $attachment_data[WP_MCM_TERMS_EDIT] ) && is_array( $attachment_data[WP_MCM_TERMS_EDIT] ) ? $attachment_data[WP_MCM_TERMS_EDIT] : array() );
+            $submitted_taxonomies = ( isset( $attachment_data[WP_MCM_TERMS_PRESENT] ) && is_array( $attachment_data[WP_MCM_TERMS_PRESENT] ) ? $attachment_data[WP_MCM_TERMS_PRESENT] : array() );
+            if ( !$submitted_taxonomies ) {
+                $this->debugMP( 'msg', __FUNCTION__ . ' RETURN !submitted_taxonomies for attachment_id(' . $attachment_id . '), media_taxonomy(' . $media_taxonomy . ')!!!' );
+                return;
+            }
+            $allow_flat_terms = 1 === count( $submitted_taxonomies );
+            foreach ( $submitted_taxonomies as $taxonomy => $marker ) {
+                $taxonomy = sanitize_key( $taxonomy );
+                $tax_object = get_taxonomy( $taxonomy );
+                if ( '1' !== (string) $marker || !is_object_in_taxonomy( 'attachment', $taxonomy ) || !$tax_object || !current_user_can( $tax_object->cap->assign_terms ) ) {
+                    $this->debugMP( 'msg', __FUNCTION__ . ' CONTINUE !marker for attachment_id(' . $attachment_id . '), taxonomy(' . $taxonomy . ')!!!' );
+                    continue;
+                }
+                $submitted_terms = ( isset( $raw_ids[$taxonomy] ) ? $raw_ids[$taxonomy] : (( $allow_flat_terms && $taxonomy === $media_taxonomy ? $raw_ids : array() )) );
+                if ( !is_array( $submitted_terms ) ) {
+                    $submitted_terms = array($submitted_terms);
+                }
+                $term_ids = array_values( array_unique( array_filter( array_map( 'absint', array_filter( $submitted_terms, 'is_scalar' ) ) ) ) );
+                $this->debugMP( 'pr', __FUNCTION__ . ' for attachment_id(' . $attachment_id . '), taxonomy(' . $taxonomy . '), term_ids:', $term_ids );
+                if ( empty( $term_ids ) && $taxonomy === $media_taxonomy && $wp_mcm_options->is_true( 'wp_mcm_use_default_on_clear' ) ) {
+                    $this->mcm_set_attachment_category_add_attachment( $attachment_id );
+                    continue;
+                }
+                $wp_set_object_terms_result = wp_set_object_terms(
+                    $attachment_id,
+                    $term_ids,
+                    $taxonomy,
+                    false
+                );
+                if ( is_wp_error( $wp_set_object_terms_result ) ) {
+                    $this->debugMP(
+                        'pr',
+                        __FUNCTION__ . ' for attachment_id(' . $attachment_id . '), taxonomy(' . $taxonomy . '), term_ids:',
+                        $term_ids,
+                        ' => is_wp_error:',
+                        $wp_set_object_terms_result
+                    );
+                }
             }
         }
 

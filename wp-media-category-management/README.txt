@@ -3,8 +3,8 @@ Contributors: DeBAAT, freemius
 Donate link: https://www.de-baat.nl/WP_MCM
 Tags: media category, bulk toggle, toggle category, media filter, user media management
 Requires at least: 6.9
-Tested up to: 7.0.3
-Stable tag: 2.5.4
+Tested up to: 7.1.3
+Stable tag: 2.5.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -104,6 +104,11 @@ Use the `[wp_mcm]` shortcode. Various shortcode uses are explained in the **WP M
 15. The admin page showing the options for Import - Export using this plugin.
 
 == Changelog ==
+
+= 2.5.5 =
+* Tested for WP 7.1.3
+* Fixed some small issues
+* Updated Freemius sdk to v2.13.5
 
 = 2.5.4 =
 * Tested for WP 7.0.3

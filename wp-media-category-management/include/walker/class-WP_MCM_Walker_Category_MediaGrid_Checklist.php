@@ -15,6 +15,7 @@ if (!class_exists('WP_MCM_Walker_Category_MediaGrid_Checklist')) {
 	{
 		var $tree_type = 'category';
 		var $db_fields = array('parent' => 'parent', 'id' => 'term_id');
+		var $attachment_id = 0;
 
 		function start_lvl(&$output, $depth = 0, $args = array())
 		{
@@ -36,16 +37,17 @@ if (!class_exists('WP_MCM_Walker_Category_MediaGrid_Checklist')) {
 				$taxonomy = 'category';
 			}
 
-			$name = 'tax_input[' . $taxonomy . ']';
+			$name = 'attachments[' . absint($this->attachment_id) . '][' . WP_MCM_TERMS_EDIT . '][' . $taxonomy . ']';
 
+			$category_term_id    = absint($category->term_id);
 			$li_element_id       = $taxonomy . '-' . $category->term_id;
 			$checkbox_element_id = 'in-' . $taxonomy . '-' . $category->term_id;
 
 			$output .= "\n<li id='" . esc_attr($li_element_id) . "'>";
 			$output .= '<label class="selectit">';
-			$output .= '<input value="' . $category->term_id . '" ';
+			$output .= '<input value="' . $category_term_id . '" ';
 			$output .= 'type="checkbox" ';
-			$output .= 'name="' . $name . '[]" ';
+			$output .= 'name="' . $name . '[' . $category_term_id . ']" ';
 			$output .= 'id="' . esc_attr($checkbox_element_id) . '"';
 			$output .= checked(in_array($category->term_id, $selected_cats), true, false);
 			$output .= disabled(empty($args['disabled']), false, false);

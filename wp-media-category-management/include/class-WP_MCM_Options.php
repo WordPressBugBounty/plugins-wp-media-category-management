@@ -33,6 +33,7 @@ if ( !class_exists( 'WP_MCM_Options' ) ) {
             'wp_mcm_use_post_taxonomy'           => '',
             'wp_mcm_search_media_library'        => '',
             'wp_mcm_use_default_category'        => '',
+            'wp_mcm_use_default_on_clear'        => '',
             'wp_mcm_default_media_category'      => WP_MCM_OPTION_NONE,
             'wp_mcm_default_post_category'       => '',
             'wp_mcm_use_gutenberg_filter'        => '1',
@@ -368,6 +369,16 @@ if ( !class_exists( 'WP_MCM_Options' ) ) {
                 'section'     => $mcm_settings_params_section,
                 'value'       => $this->get_value( $mcm_settings_params_name ),
                 'description' => __( 'Use the default category when adding or editing an attachment?', 'wp-media-category-management' ),
+            );
+            $mcm_settings_params_name = 'wp_mcm_use_default_on_clear';
+            $this->mcm_settings_params[$mcm_settings_params_name] = array(
+                'label'       => __( 'Use Default Category When Clearing', 'wp-media-category-management' ),
+                'name'        => $mcm_settings_params_name,
+                'slug'        => $this->wp_mcm_make_slug( $mcm_settings_params_name, WP_MCM_SECTION_PREFIX ),
+                'type'        => WP_MCM_SETTINGS_TYPE_CHECKBOX,
+                'section'     => $mcm_settings_params_section,
+                'value'       => $this->get_value( $mcm_settings_params_name ),
+                'description' => __( 'Restore the default media category when all categories are cleared in the media grid.', 'wp-media-category-management' ),
             );
             $mcm_settings_params_name = 'wp_mcm_default_media_category';
             $this->mcm_settings_params[$mcm_settings_params_name] = array(
